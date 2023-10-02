@@ -70,7 +70,12 @@ class IntroPage extends StatelessWidget {
                                 foregroundColor:
                                     Theme.of(context).colorScheme.secondary),
                             child: Text("Log In"),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LogInPage()));
+                            },
                           ),
                         ),
                       ),
