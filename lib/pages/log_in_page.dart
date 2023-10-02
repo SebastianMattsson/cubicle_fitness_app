@@ -1,0 +1,26 @@
+// ignore_for_file: prefer_const_constructors
+
+import "package:flutter/material.dart";
+
+class LogInPage extends StatefulWidget {
+  const LogInPage({super.key});
+
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background_app_intro.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
