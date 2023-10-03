@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import "package:cubicle_fitness/pages/log_in_page.dart";
+import "package:cubicle_fitness/pages/register_page.dart";
 import "package:flutter/material.dart";
 
 class IntroPage extends StatelessWidget {
@@ -106,7 +107,13 @@ class IntroPage extends StatelessWidget {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterPage()));
+                            },
                           ),
                         ),
                       )

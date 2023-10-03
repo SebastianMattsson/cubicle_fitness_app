@@ -1,11 +1,16 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 
-class PasswordTF extends StatelessWidget {
+class ExtrasTF extends StatelessWidget {
   final String label;
   final String hintText;
-  const PasswordTF({super.key, required this.label, required this.hintText});
+  final IconData icon;
+  const ExtrasTF(
+      {super.key,
+      required this.label,
+      required this.hintText,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,6 @@ class PasswordTF extends StatelessWidget {
               ]),
           height: 60,
           child: TextField(
-            obscureText: true,
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             decoration: InputDecoration(
                 filled:
@@ -49,7 +53,7 @@ class PasswordTF extends StatelessWidget {
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.only(top: 14),
                 prefixIcon: Icon(
-                  Icons.lock,
+                  icon,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
                 hintText: hintText,

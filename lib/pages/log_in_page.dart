@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import "package:cubicle_fitness/pages/register_page.dart";
 import "package:cubicle_fitness/widgets/email_TF.dart";
 import "package:cubicle_fitness/widgets/forgot_password_BT.dart";
 import "package:cubicle_fitness/widgets/login_BT.dart";
@@ -57,7 +58,10 @@ class _LogInPageState extends State<LogInPage> {
                     SizedBox(
                       height: 25,
                     ),
-                    PasswordTF(),
+                    PasswordTF(
+                      label: "Password",
+                      hintText: "Enter your password",
+                    ),
                     ForgotPWBT(),
                     Container(
                       child: Row(
@@ -174,7 +178,13 @@ class _LogInPageState extends State<LogInPage> {
                                   fontSize: 16,
                                 )),
                             TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterPage()));
+                                },
                                 child: Text("Register now",
                                     style: TextStyle(
                                       fontFamily: 'Roboto',
