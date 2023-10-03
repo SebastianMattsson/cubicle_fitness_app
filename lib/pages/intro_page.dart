@@ -55,21 +55,26 @@ class IntroPage extends StatelessWidget {
                     children: [
                       Center(
                         child: Container(
+                          width: double.infinity,
                           padding: EdgeInsets.all(10),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                minimumSize: Size(280, 80),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                textStyle: TextStyle(
-                                    fontSize: 24,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w900),
+                                elevation: 8,
                                 backgroundColor:
                                     Theme.of(context).colorScheme.background,
-                                foregroundColor:
-                                    Theme.of(context).colorScheme.secondary),
-                            child: Text("Log In"),
+                                padding: EdgeInsets.all(20),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30))),
+                            child: Text(
+                              "LOGIN",
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontFamily: 'Roboto',
+                                  letterSpacing: 2,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             onPressed: () {
                               Navigator.push(
                                   context,
@@ -81,21 +86,26 @@ class IntroPage extends StatelessWidget {
                       ),
                       Center(
                         child: Container(
+                          width: double.infinity,
                           padding: EdgeInsets.all(10),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                minimumSize: Size(280, 80),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                textStyle: TextStyle(
-                                    fontSize: 24,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w900),
+                                elevation: 8,
                                 backgroundColor:
                                     Theme.of(context).colorScheme.background,
-                                foregroundColor:
-                                    Theme.of(context).colorScheme.secondary),
-                            child: Text("Register"),
+                                padding: EdgeInsets.all(20),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30))),
+                            child: Text(
+                              "REGISTER",
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontFamily: 'Roboto',
+                                  letterSpacing: 2,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
                             onPressed: () {},
                           ),
                         ),

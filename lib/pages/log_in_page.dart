@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import "package:cubicle_fitness/widgets/email_TF.dart";
+import "package:cubicle_fitness/widgets/forgot_password_BT.dart";
+import "package:cubicle_fitness/widgets/login_BT.dart";
 import "package:cubicle_fitness/widgets/password_TF.dart";
 import "package:flutter/material.dart";
 
@@ -12,6 +14,8 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
+  bool? _rememberMe = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +58,136 @@ class _LogInPageState extends State<LogInPage> {
                       height: 25,
                     ),
                     PasswordTF(),
+                    ForgotPWBT(),
+                    Container(
+                      child: Row(
+                        children: [
+                          Theme(
+                              data: ThemeData(
+                                  unselectedWidgetColor:
+                                      Theme.of(context).colorScheme.secondary),
+                              child: Checkbox(
+                                value: _rememberMe,
+                                checkColor:
+                                    Theme.of(context).colorScheme.primary,
+                                activeColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _rememberMe = value;
+                                  });
+                                },
+                              )),
+                          Text(
+                            "Remember me",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontFamily: 'Roboto',
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      width: double.infinity,
+                      child: LogInBT(),
+                    ),
+                    Column(
+                      children: [
+                        Text("- OR -",
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondary
+                                  .withOpacity(0.8),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("Sign in with",
+                            style: TextStyle(
+                              fontFamily: 'Roboto',
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(0, 2),
+                                        blurRadius: 6)
+                                  ],
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "lib/images/facebook.png"))),
+                            ),
+                            Container(
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black26,
+                                        offset: Offset(0, 2),
+                                        blurRadius: 6)
+                                  ],
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage("lib/images/google.png"))),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Dont have an account?",
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary
+                                      .withOpacity(0.8),
+                                  fontSize: 16,
+                                )),
+                            TextButton(
+                                onPressed: () {},
+                                child: Text("Register now",
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    )))
+                          ],
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),

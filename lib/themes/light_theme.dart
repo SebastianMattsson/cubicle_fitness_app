@@ -8,8 +8,5 @@ ThemeData lightTheme = ThemeData(
     background: Color.fromARGB(255, 6, 109, 211),
     primary: Color.fromARGB(255, 35, 126, 217),
     secondary: Color.fromARGB(255, 255, 255, 255),
-    // background: Color(0xFFA9CEF4),
-    // primary: Color(0xFFA9CEF4),
-    // secondary: Color(0xFF36494E),
   ),
 );
