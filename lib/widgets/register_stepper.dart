@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cubicle_fitness/widgets/company_step.dart';
+import 'package:cubicle_fitness/widgets/confirm_step.dart';
 import 'package:cubicle_fitness/widgets/extras_step.dart';
 import 'package:cubicle_fitness/widgets/user_step.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _RegisterStepperState extends State<RegisterStepper> {
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
-            content: Container(),
+            content: ConfirmStep(),
             isActive: currentStep >= 3),
       ];
   int currentStep = 0;
@@ -73,7 +74,7 @@ class _RegisterStepperState extends State<RegisterStepper> {
                 primary: Theme.of(context).colorScheme.background,
               )),
       child: Stepper(
-        type: StepperType.horizontal,
+        type: StepperType.vertical,
         steps: getSteps(),
         currentStep: currentStep,
         controlsBuilder: (context, methods) {

@@ -96,7 +96,9 @@ class _LogInPageState extends State<LogInPage> {
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       width: double.infinity,
-                      child: LogInBT(),
+                      child: LogInBT(
+                        text: "LOGIN",
+                      ),
                     ),
                     Column(
                       children: [

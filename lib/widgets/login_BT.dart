@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LogInBT extends StatelessWidget {
-  const LogInBT({super.key});
+  final String text;
+  const LogInBT({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class LogInBT extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
       child: Text(
-        "LOGIN",
+        text,
         style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
             fontFamily: 'Roboto',
