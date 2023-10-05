@@ -4,6 +4,7 @@ import 'package:cubicle_fitness/pages/log_in_page.dart';
 import 'package:cubicle_fitness/widgets/email_TF.dart';
 import 'package:cubicle_fitness/widgets/login_BT.dart';
 import 'package:cubicle_fitness/widgets/password_TF.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -14,6 +15,46 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+  void signUpUser() async {
+    //Show a loading circle
+    showDialog(
+        context: context,
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
+
+    //Try signing in
+    try {
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+        //Remove the loading circle
+        Navigator.pop(context);
+        Navigator.pop(context);
+      } else {
+        //Remove the loading circle
+        Navigator.pop(context);
+        showErrorMessage("The passwords don't match");
+      }
+    } on FirebaseAuthException catch (e) {
+      //Remove the loading circle
+      Navigator.pop(context);
+      showErrorMessage(e.code);
+    }
+  }
+
+  void showErrorMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(message.toString()),
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,13 +92,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(
                       height: 25,
                     ),
-                    EmailTF(),
+                    EmailTF(
+                      controller: emailController,
+                    ),
                     SizedBox(
                       height: 25,
                     ),
                     PasswordTF(
                       label: "Password",
                       hintText: "Enter your password",
+                      controller: passwordController,
                     ),
                     SizedBox(
                       height: 25,
@@ -65,12 +109,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     PasswordTF(
                       label: "Confirm Password",
                       hintText: "Enter your password again",
+                      controller: confirmPasswordController,
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       width: double.infinity,
                       child: LogInBT(
                         text: "REGISTER",
+                        onPressed: signUpUser,
                       ),
                     ),
                     Column(

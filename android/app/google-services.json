@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "778394648288",
+    "project_id": "cubicle-fitness",
+    "storage_bucket": "cubicle-fitness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:778394648288:android:ea7ff95ea6f436e5709a85",
+        "android_client_info": {
+          "package_name": "com.example.cubicle_fitness"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgaQ1o0S2lYAvUdfC-vDudV5b2UUtxm80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

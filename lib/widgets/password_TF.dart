@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 class PasswordTF extends StatelessWidget {
   final String label;
   final String hintText;
-  const PasswordTF({super.key, required this.label, required this.hintText});
+  final TextEditingController? controller;
+  const PasswordTF(
+      {super.key,
+      required this.label,
+      required this.hintText,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +43,7 @@ class PasswordTF extends StatelessWidget {
               ]),
           height: 60,
           child: TextField(
+            controller: controller,
             obscureText: true,
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             decoration: InputDecoration(

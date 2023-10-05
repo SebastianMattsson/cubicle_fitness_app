@@ -13,21 +13,21 @@ class UserStep extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        EmailTF(),
+        //EmailTF(),
         SizedBox(
           height: 20,
         ),
-        PasswordTF(
-          label: "Password",
-          hintText: "Enter your password",
-        ),
+        // PasswordTF(
+        //   label: "Password",
+        //   hintText: "Enter your password",
+        // ),
         SizedBox(
           height: 20,
         ),
-        PasswordTF(
-          label: "Re-Enter Password",
-          hintText: "Re-Enter your password",
-        ),
+        // PasswordTF(
+        //   label: "Re-Enter Password",
+        //   hintText: "Re-Enter your password",
+        // ),
         SizedBox(
           height: 20,
         ),

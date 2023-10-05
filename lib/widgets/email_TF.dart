@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 
 class EmailTF extends StatelessWidget {
-  const EmailTF({super.key});
+  final TextEditingController? controller;
+  const EmailTF({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class EmailTF extends StatelessWidget {
               ]),
           height: 60,
           child: TextField(
+            controller: controller,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             decoration: InputDecoration(
