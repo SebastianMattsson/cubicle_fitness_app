@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
 import 'package:cubicle_fitness/pages/log_in_page.dart';
+import 'package:cubicle_fitness/services/auth_service.dart';
 import 'package:cubicle_fitness/widgets/email_TF.dart';
 import 'package:cubicle_fitness/widgets/login_BT.dart';
 import 'package:cubicle_fitness/widgets/password_TF.dart';
+import 'package:cubicle_fitness/widgets/sign_in_with_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text);
         //Remove the loading circle
-        Navigator.pop(context);
         Navigator.pop(context);
       } else {
         //Remove the loading circle
@@ -147,40 +148,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(0, 2),
-                                        blurRadius: 6)
-                                  ],
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          "lib/images/facebook.png"))),
-                            ),
-                            Container(
-                              width: 70,
-                              height: 70,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26,
-                                        offset: Offset(0, 2),
-                                        blurRadius: 6)
-                                  ],
-                                  image: DecorationImage(
-                                      image:
-                                          AssetImage("lib/images/google.png"))),
-                            ),
+                            SignInWithTile(
+                                onTap: () {},
+                                imagePath: "lib/images/facebook.png"),
+                            SignInWithTile(
+                                onTap: () => AuthService().signInWithGoogle(),
+                                imagePath: "lib/images/google.png"),
                           ],
                         ),
                         SizedBox(

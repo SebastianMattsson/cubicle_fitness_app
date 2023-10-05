@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import "package:cubicle_fitness/pages/register_page.dart";
+import "package:cubicle_fitness/services/auth_service.dart";
 import "package:cubicle_fitness/widgets/email_TF.dart";
 import "package:cubicle_fitness/widgets/forgot_password_BT.dart";
 import "package:cubicle_fitness/widgets/login_BT.dart";
 import "package:cubicle_fitness/widgets/password_TF.dart";
+import "package:cubicle_fitness/widgets/sign_in_with_tile.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
@@ -35,7 +37,6 @@ class _LogInPageState extends State<LogInPage> {
           email: emailController.text, password: passwordController.text);
 
       //Remove the loading circle
-      Navigator.pop(context);
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       //Remove the loading circle
@@ -172,40 +173,12 @@ class _LogInPageState extends State<LogInPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                width: 70,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 2),
-                                          blurRadius: 6)
-                                    ],
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "lib/images/facebook.png"))),
-                              ),
-                              Container(
-                                width: 70,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(0, 2),
-                                          blurRadius: 6)
-                                    ],
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "lib/images/google.png"))),
-                              ),
+                              SignInWithTile(
+                                  onTap: () {},
+                                  imagePath: "lib/images/facebook.png"),
+                              SignInWithTile(
+                                  onTap: () => AuthService().signInWithGoogle(),
+                                  imagePath: "lib/images/google.png"),
                             ],
                           ),
                           SizedBox(
