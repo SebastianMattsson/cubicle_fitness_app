@@ -36,6 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
             email: emailController.text, password: passwordController.text);
         //Remove the loading circle
         Navigator.pop(context);
+        Navigator.pop(context);
       } else {
         //Remove the loading circle
         Navigator.pop(context);

@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:cubicle_fitness/widgets/email_TF.dart';
-import 'package:cubicle_fitness/widgets/password_TF.dart';
 import 'package:flutter/material.dart';
 
 class UserStep extends StatelessWidget {

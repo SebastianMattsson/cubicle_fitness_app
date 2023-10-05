@@ -38,10 +38,13 @@ class _LogInPageState extends State<LogInPage> {
 
       //Remove the loading circle
       Navigator.pop(context);
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       //Remove the loading circle
       Navigator.pop(context);
       showErrorMessage();
+    } catch (e) {
+      print("error" + e.toString());
     }
     //Remove the loading circle
     //Navigator.pop(context);
