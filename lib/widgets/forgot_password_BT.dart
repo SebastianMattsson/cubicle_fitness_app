@@ -12,7 +12,7 @@ class ForgotPWBT extends StatelessWidget {
         child: Text(
           "Forgot your password?",
           style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.background,
               fontFamily: 'Roboto',
               fontSize: 16,
               fontWeight: FontWeight.bold),

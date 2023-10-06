@@ -19,7 +19,7 @@ class IntroPage extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.primary,
             image: DecorationImage(
               image: isDarkMode
                   ? AssetImage("lib/images/background_app_dark.png")
@@ -38,20 +38,42 @@ class IntroPage extends StatelessWidget {
                 ),
 
                 //Headline for the intro page
-                Text(
-                  "CubicleFitness",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 48,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold),
+                Container(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Center(
+                      child: Text(
+                        "CubicleFitness",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.background,
+                            fontSize: 55,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  child: Center(
+                    child: Text(
+                      "Elevate your health, Elevate your work!",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.background,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                  ),
                 ),
 
                 SizedBox(
                   height: 400,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(50.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: Column(
                     children: [
                       Center(
@@ -62,7 +84,7 @@ class IntroPage extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 elevation: 8,
                                 backgroundColor:
-                                    Theme.of(context).colorScheme.background,
+                                    Theme.of(context).colorScheme.primary,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
@@ -70,7 +92,7 @@ class IntroPage extends StatelessWidget {
                               "LOGIN",
                               style: TextStyle(
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.background,
                                   fontFamily: 'Roboto',
                                   letterSpacing: 2,
                                   fontSize: 20,
@@ -85,6 +107,9 @@ class IntroPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Center(
                         child: Container(
                           width: double.infinity,
@@ -93,7 +118,7 @@ class IntroPage extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 elevation: 8,
                                 backgroundColor:
-                                    Theme.of(context).colorScheme.background,
+                                    Theme.of(context).colorScheme.primary,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
@@ -101,7 +126,7 @@ class IntroPage extends StatelessWidget {
                               "REGISTER",
                               style: TextStyle(
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.background,
                                   fontFamily: 'Roboto',
                                   letterSpacing: 2,
                                   fontSize: 20,

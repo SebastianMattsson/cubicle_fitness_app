@@ -66,6 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '778394648288',
     projectId: 'cubicle-fitness',
     storageBucket: 'cubicle-fitness.appspot.com',
+    androidClientId: '778394648288-6ndnk6bm4hdjbgc5466cnmjdkvoesk2m.apps.googleusercontent.com',
+    iosClientId: '778394648288-7jl6mjkhhu4hem7vijvufcj79q69ulav.apps.googleusercontent.com',
     iosBundleId: 'com.sebastianmattsson.cubicleFitness',
   );
 
@@ -75,6 +77,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '778394648288',
     projectId: 'cubicle-fitness',
     storageBucket: 'cubicle-fitness.appspot.com',
+    androidClientId: '778394648288-6ndnk6bm4hdjbgc5466cnmjdkvoesk2m.apps.googleusercontent.com',
+    iosClientId: '778394648288-lsad6fgtbjs6bbqel1ba8n5lcs5mrhi7.apps.googleusercontent.com',
     iosBundleId: 'com.example.cubicleFitness.RunnerTests',
   );
 }

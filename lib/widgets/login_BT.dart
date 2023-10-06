@@ -11,7 +11,7 @@ class LogInBT extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
           elevation: 8,
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: Theme.of(context).colorScheme.background,
           padding: EdgeInsets.all(15),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),

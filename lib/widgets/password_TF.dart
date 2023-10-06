@@ -21,7 +21,7 @@ class PasswordTF extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.background,
               fontFamily: 'Roboto',
               fontSize: 16,
               fontWeight: FontWeight.bold),
@@ -45,7 +45,7 @@ class PasswordTF extends StatelessWidget {
           child: TextField(
             controller: controller,
             obscureText: true,
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            style: TextStyle(color: Theme.of(context).colorScheme.background),
             decoration: InputDecoration(
                 filled:
                     true, // Set to true to enable filling the container color
@@ -56,13 +56,13 @@ class PasswordTF extends StatelessWidget {
                 contentPadding: EdgeInsets.only(top: 14),
                 prefixIcon: Icon(
                   Icons.lock,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.background,
                 ),
                 hintText: hintText,
                 hintStyle: TextStyle(
                     color: Theme.of(context)
                         .colorScheme
-                        .secondary
+                        .background
                         .withOpacity(0.6))),
           ),
         )

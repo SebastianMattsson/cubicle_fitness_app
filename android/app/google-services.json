@@ -12,7 +12,20 @@
           "package_name": "com.example.cubicle_fitness"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "778394648288-6ndnk6bm4hdjbgc5466cnmjdkvoesk2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cubicle_fitness",
+            "certificate_hash": "aa61850d65396f69efa73c8904d6339332a26448"
+          }
+        },
+        {
+          "client_id": "778394648288-eb1qittm11e1nlnp62ec9f36lo9qebjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCgaQ1o0S2lYAvUdfC-vDudV5b2UUtxm80"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778394648288-eb1qittm11e1nlnp62ec9f36lo9qebjm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "778394648288-7jl6mjkhhu4hem7vijvufcj79q69ulav.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sebastianmattsson.cubicleFitness"
+              }
+            }
+          ]
         }
       }
     }

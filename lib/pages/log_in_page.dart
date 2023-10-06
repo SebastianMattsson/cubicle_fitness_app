@@ -72,9 +72,11 @@ class _LogInPageState extends State<LogInPage> {
               end: Alignment.bottomCenter,
               colors: [
                 Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.background,
+                Theme.of(context).colorScheme.primary.withAlpha(230),
+                Theme.of(context).colorScheme.primary.withAlpha(200),
+                Theme.of(context).colorScheme.primary.withAlpha(170),
               ],
-              stops: [0.1, 0.4],
+              stops: [0.1, 0.4, 0.7, 0.9],
             )),
           ),
           SafeArea(
@@ -88,10 +90,10 @@ class _LogInPageState extends State<LogInPage> {
                       Text(
                         "Sign In",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 40,
+                            color: Theme.of(context).colorScheme.background,
+                            fontSize: 50,
                             fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400),
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 25,
@@ -109,38 +111,6 @@ class _LogInPageState extends State<LogInPage> {
                       ),
                       ForgotPWBT(),
                       Container(
-                        child: Row(
-                          children: [
-                            Theme(
-                                data: ThemeData(
-                                    unselectedWidgetColor: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
-                                child: Checkbox(
-                                  value: _rememberMe,
-                                  checkColor:
-                                      Theme.of(context).colorScheme.primary,
-                                  activeColor:
-                                      Theme.of(context).colorScheme.secondary,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _rememberMe = value;
-                                    });
-                                  },
-                                )),
-                            Text(
-                              "Remember me",
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
                         padding: EdgeInsets.symmetric(vertical: 20),
                         width: double.infinity,
                         child: LogInBT(
@@ -155,7 +125,7 @@ class _LogInPageState extends State<LogInPage> {
                                 fontFamily: 'Roboto',
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .secondary
+                                    .background
                                     .withOpacity(0.8),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -166,7 +136,7 @@ class _LogInPageState extends State<LogInPage> {
                           Text("Sign in with",
                               style: TextStyle(
                                 fontFamily: 'Roboto',
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context).colorScheme.background,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               )),
@@ -195,7 +165,7 @@ class _LogInPageState extends State<LogInPage> {
                                     fontFamily: 'Roboto',
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .secondary
+                                        .background
                                         .withOpacity(0.8),
                                     fontSize: 16,
                                   )),
@@ -212,7 +182,7 @@ class _LogInPageState extends State<LogInPage> {
                                         fontFamily: 'Roboto',
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .secondary,
+                                            .background,
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       )))
