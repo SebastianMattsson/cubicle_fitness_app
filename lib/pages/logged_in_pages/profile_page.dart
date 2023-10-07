@@ -22,7 +22,8 @@ class ProfilePage extends StatelessWidget {
                   width: 100,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image(image: AssetImage("lib/images/google.png")),
+                    child: Image.network(
+                        "https://firebasestorage.googleapis.com/v0/b/cubicle-fitness.appspot.com/o/images%2Fman_avatar.jpg?alt=media&token=4922156a-0d87-4769-9916-983ce4890854"),
                   ),
                 ),
                 Positioned(

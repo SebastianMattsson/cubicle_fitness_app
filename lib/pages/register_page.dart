@@ -3,13 +3,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubicle_fitness/pages/log_in_page.dart';
 import 'package:cubicle_fitness/services/auth_service.dart';
-import 'package:cubicle_fitness/widgets/email_TF.dart';
 import 'package:cubicle_fitness/widgets/form_TF.dart';
+import 'package:cubicle_fitness/widgets/gender_dropdown.dart';
 import 'package:cubicle_fitness/widgets/login_BT.dart';
-import 'package:cubicle_fitness/widgets/password_TF.dart';
 import 'package:cubicle_fitness/widgets/sign_in_with_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -25,7 +26,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final firstnameController = TextEditingController();
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
-  final ageController = TextEditingController();
+  final dateOfBirthController = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
+  String genderSelected = "Male";
 
   void signUpUser() async {
     //Show a loading circle
@@ -46,7 +50,8 @@ class _RegisterPageState extends State<RegisterPage> {
             nameController.text.trim(),
             surnameController.text.trim(),
             emailController.text.trim(),
-            int.parse(ageController.text.trim()));
+            dateOfBirthController.text.trim(),
+            genderSelected);
 
         //Remove the loading circle
         Navigator.pop(context);
@@ -63,11 +68,15 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Future addUserDetails(
-      String name, String surName, String email, int age) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .add({'name': name, 'surname': surName, 'email': email, 'age': age});
+  Future addUserDetails(String name, String surName, String email,
+      String dateOfBirth, String gender) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'name': name,
+      'surname': surName,
+      'email': email,
+      'dateOfBirth': dateOfBirth,
+      'gender': gender
+    });
   }
 
   void showErrorMessage(String message) {
@@ -76,6 +85,22 @@ class _RegisterPageState extends State<RegisterPage> {
         builder: (context) => AlertDialog(
               title: Text(message.toString()),
             ));
+  }
+
+  void _showDatePicker() async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(DateTime.now().year - 70),
+        lastDate: DateTime.now());
+
+    if (pickedDate != null) {
+      setState(() {
+        selectedDate = pickedDate;
+        dateOfBirthController.text =
+            DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+    }
   }
 
   @override
@@ -132,52 +157,67 @@ class _RegisterPageState extends State<RegisterPage> {
                         obscureText: true,
                         icon: Icons.lock,
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       FormTextField(
                           label: "Confirm Password",
                           hintText: "Enter your password again",
                           controller: confirmPasswordController,
                           obscureText: true,
                           icon: Icons.lock),
-                      SizedBox(
-                        height: 10,
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Flexible(
+                            child: FormTextField(
+                                label: "Firstname",
+                                hintText: "Firstname",
+                                controller: nameController,
+                                icon: Icons.person),
+                          ),
+                          Flexible(
+                            child: FormTextField(
+                                label: "Surname",
+                                hintText: "Surname",
+                                controller: surnameController,
+                                icon: Icons.person),
+                          ),
+                        ],
                       ),
-                      FormTextField(
-                          label: "Firstname",
-                          hintText: "Enter your firstname",
-                          controller: nameController,
-                          icon: Icons.short_text_outlined),
-                      SizedBox(
-                        height: 10,
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Flexible(
+                            child: FormTextField(
+                                label: "Age",
+                                hintText: "Date of birth",
+                                onTap: _showDatePicker,
+                                controller: dateOfBirthController,
+                                keyboardType: TextInputType.datetime,
+                                icon: Icons.calendar_month),
+                          ),
+                          Flexible(
+                              child: GenderDropdown(
+                            onGenderSelected: (value) {
+                              setState(() {
+                                genderSelected = value;
+                              });
+                            },
+                            genderSelected: genderSelected,
+                          )),
+                        ],
                       ),
-                      FormTextField(
-                          label: "Surname",
-                          hintText: "Enter your surname",
-                          controller: surnameController,
-                          icon: Icons.short_text_outlined),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      FormTextField(
-                          label: "Age",
-                          hintText: "Enter your age",
-                          controller: ageController,
-                          keyboardType: TextInputType.number,
-                          icon: Icons.numbers),
                       Container(
                         padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                         width: double.infinity,
                         child: LogInBT(
                           text: "REGISTER",
                           onPressed: signUpUser,
                         ),
                       ),
-                      Column(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("- OR -",
+                          Text("Already have an account?",
                               style: TextStyle(
                                 fontFamily: 'Roboto',
                                 color: Theme.of(context)
@@ -185,66 +225,24 @@ class _RegisterPageState extends State<RegisterPage> {
                                     .background
                                     .withOpacity(0.8),
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold,
                               )),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text("Sign in with",
-                              style: TextStyle(
-                                fontFamily: 'Roboto',
-                                color: Theme.of(context).colorScheme.background,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              )),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SignInWithTile(
-                                  onTap: () {},
-                                  imagePath: "lib/images/facebook.png"),
-                              SignInWithTile(
-                                  onTap: () => AuthService().signInWithGoogle(),
-                                  imagePath: "lib/images/google.png"),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Already have an account?",
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LogInPage()));
+                              },
+                              child: Text("Log in",
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .background
-                                        .withOpacity(0.8),
+                                        .background,
                                     fontSize: 16,
-                                  )),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const LogInPage()));
-                                  },
-                                  child: Text("Log in",
-                                      style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      )))
-                            ],
-                          )
+                                    fontWeight: FontWeight.bold,
+                                  )))
                         ],
                       )
                     ],

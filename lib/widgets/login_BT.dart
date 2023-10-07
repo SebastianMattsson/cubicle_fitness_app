@@ -12,7 +12,7 @@ class LogInBT extends StatelessWidget {
       style: ElevatedButton.styleFrom(
           elevation: 8,
           backgroundColor: Theme.of(context).colorScheme.background,
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(20),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
       child: Text(
