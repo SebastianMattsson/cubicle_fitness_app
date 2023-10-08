@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubicle_fitness/pages/log_in_page.dart';
 import 'package:cubicle_fitness/services/auth_service.dart';
 import 'package:cubicle_fitness/widgets/form_TF.dart';
 import 'package:cubicle_fitness/widgets/gender_dropdown.dart';
 import 'package:cubicle_fitness/widgets/login_BT.dart';
-import 'package:cubicle_fitness/widgets/sign_in_with_tile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   DateTime selectedDate = DateTime.now();
   String genderSelected = "Male";
+  final _auth = AuthService();
 
   void signUpUser() async {
     //Show a loading circle
@@ -42,16 +41,18 @@ class _RegisterPageState extends State<RegisterPage> {
     //Try signing in
     try {
       if (passwordController.text == confirmPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim());
-
-        addUserDetails(
+        await _auth.createUserWithEmailAndPassword(
+            emailController.text.trim(),
+            passwordController.text.trim(),
             nameController.text.trim(),
             surnameController.text.trim(),
-            emailController.text.trim(),
             dateOfBirthController.text.trim(),
-            genderSelected);
+            genderSelected,
+            genderSelected == "Male"
+                ? "https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?w=1380&t=st=1696794516~exp=1696795116~hmac=094bcefae9a099aa60b875b644de31f0654710a6c5050b95204b182e757021ef"
+                : genderSelected == "Female"
+                    ? "https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5908.jpg?w=1060&t=st=1696794637~exp=1696795237~hmac=f8412c7dc44f40dad0d7ad94a9dc7cee07bae2d175cecaf923d70972bc802bbb"
+                    : "https://img.freepik.com/free-vector/thoughtful-woman-with-laptop-looking-big-question-mark_1150-39362.jpg?w=1060&t=st=1696794703~exp=1696795303~hmac=eadfb6de66d08fad02974fdeace111c6658b83d54682d84a2eba23d3f4f0d63f");
 
         //Remove the loading circle
         Navigator.pop(context);
@@ -66,17 +67,6 @@ class _RegisterPageState extends State<RegisterPage> {
       Navigator.pop(context);
       showErrorMessage(e.code);
     }
-  }
-
-  Future addUserDetails(String name, String surName, String email,
-      String dateOfBirth, String gender) async {
-    await FirebaseFirestore.instance.collection('users').add({
-      'name': name,
-      'surname': surName,
-      'email': email,
-      'dateOfBirth': dateOfBirth,
-      'gender': gender
-    });
   }
 
   void showErrorMessage(String message) {

@@ -22,6 +22,7 @@ class _LogInPageState extends State<LogInPage> {
   bool? _rememberMe = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final _auth = AuthService();
 
   void signInUser() async {
     //Show a loading circle
@@ -33,9 +34,8 @@ class _LogInPageState extends State<LogInPage> {
 
     //Try signing in
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-
+      dynamic result = await _auth.signInWithEmailAndPassword(
+          emailController.text.trim(), passwordController.text.trim());
       //Remove the loading circle
       Navigator.pop(context);
       Navigator.pop(context);
@@ -150,7 +150,7 @@ class _LogInPageState extends State<LogInPage> {
                                   onTap: () {},
                                   imagePath: "lib/images/facebook.png"),
                               SignInWithTile(
-                                  onTap: () => AuthService().signInWithGoogle(),
+                                  onTap: () => _auth.signInWithGoogle(),
                                   imagePath: "lib/images/google.png"),
                             ],
                           ),

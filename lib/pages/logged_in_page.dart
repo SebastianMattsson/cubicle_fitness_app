@@ -5,6 +5,7 @@ import 'package:cubicle_fitness/pages/logged_in_pages/company_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/dashboard_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/my_activities.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/profile_page.dart';
+import 'package:cubicle_fitness/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -18,6 +19,7 @@ class LoggedInPage extends StatefulWidget {
 
 class _LoggedInPageState extends State<LoggedInPage> {
   final user = FirebaseAuth.instance.currentUser;
+  final _auth = AuthService();
   int _page = 0;
   final pages = [
     MyActivitiesPage(),
@@ -26,9 +28,6 @@ class _LoggedInPageState extends State<LoggedInPage> {
     CompanyPage(),
     ProfilePage()
   ];
-  Future<void> signUserOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
 
   void changePage(int page) {
     setState(() {
@@ -45,7 +44,9 @@ class _LoggedInPageState extends State<LoggedInPage> {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: signUserOut,
+              onPressed: () async {
+                await _auth.signOut();
+              },
               icon: Icon(
                 Icons.logout,
                 color: Theme.of(context).colorScheme.secondary,

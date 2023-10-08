@@ -1,16 +1,65 @@
+import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirestoreService();
+
+  //Sign in with email and password
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      return await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {}
+  }
+
+  Future createUserWithEmailAndPassword(
+      String email,
+      String password,
+      String name,
+      String surname,
+      String dateOfBirth,
+      String gender,
+      String image) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      _firestore.addUser(email, name, surname, dateOfBirth, gender, image);
+      return userCredential;
+    } catch (e) {}
+  }
+
 //Google sign in
-  signInWithGoogle() async {
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+  Future signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
 
-    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      // Check if the user document already exists
+      bool userExists =
+          await _firestore.checkUserExists(userCredential.user!.email);
 
-    final credential = GoogleAuthProvider.credential(
-        accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+      List<String>? nameParts = userCredential.user!.displayName!.split(' ');
+      String name = nameParts[0];
+      String surname = nameParts.length > 1 ? nameParts[1] : '';
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      // If the user document does not exist, add it
+      if (!userExists) {
+        _firestore.addUserThroughGoogle(userCredential.user!.email, name,
+            surname, userCredential.user!.photoURL);
+      }
+      return userCredential;
+    } catch (e) {}
+  }
+
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {}
   }
 }
