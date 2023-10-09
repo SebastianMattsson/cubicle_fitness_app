@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cubicle_fitness/pages/logged_in_pages/activities_page.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/company_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/dashboard_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/my_activities.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/profile_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/profile/profile_page.dart';
 import 'package:cubicle_fitness/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +60,8 @@ class _LoggedInPageState extends State<LoggedInPage> {
           child: GNav(
             gap: 12,
             backgroundColor: Theme.of(context).colorScheme.primary,
-            color: Theme.of(context).colorScheme.background,
-            activeColor: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.tertiary,
+            activeColor: Theme.of(context).colorScheme.tertiary,
             tabBackgroundColor: Theme.of(context).colorScheme.background,
             padding: EdgeInsets.all(16),
             tabs: [
@@ -82,7 +82,7 @@ class _LoggedInPageState extends State<LoggedInPage> {
                 text: "Company",
               ),
               GButton(
-                icon: Icons.settings,
+                icon: Icons.person,
                 text: "Profile",
               ),
             ],

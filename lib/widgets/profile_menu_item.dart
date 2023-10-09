@@ -24,11 +24,11 @@ class ProfileMenuItem extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
-          color: Theme.of(context).colorScheme.secondary.withOpacity(0.8),
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
         ),
         child: Icon(
           icon,
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
       ),
       title: Text(
@@ -47,12 +47,12 @@ class ProfileMenuItem extends StatelessWidget {
               height: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
               ),
               child: Icon(
                 Icons.arrow_forward_ios,
                 size: 15,
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.tertiary,
               ),
             )
           : null,

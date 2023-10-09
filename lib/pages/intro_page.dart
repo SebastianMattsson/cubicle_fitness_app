@@ -46,7 +46,7 @@ class IntroPage extends StatelessWidget {
                       child: Text(
                         "CubicleFitness",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.background,
+                            color: Theme.of(context).colorScheme.tertiary,
                             fontSize: 55,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.bold),
@@ -60,7 +60,7 @@ class IntroPage extends StatelessWidget {
                     child: Text(
                       "Elevate your health, Elevate your work!",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.background,
+                        color: Theme.of(context).colorScheme.tertiary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
@@ -84,15 +84,14 @@ class IntroPage extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 elevation: 8,
                                 backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.secondary,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
                             child: Text(
                               "LOGIN",
                               style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.background,
+                                  color: Theme.of(context).colorScheme.tertiary,
                                   fontFamily: 'Roboto',
                                   letterSpacing: 2,
                                   fontSize: 20,
@@ -118,15 +117,14 @@ class IntroPage extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                                 elevation: 8,
                                 backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.secondary,
                                 padding: EdgeInsets.all(20),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
                             child: Text(
                               "REGISTER",
                               style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.background,
+                                  color: Theme.of(context).colorScheme.tertiary,
                                   fontFamily: 'Roboto',
                                   letterSpacing: 2,
                                   fontSize: 20,

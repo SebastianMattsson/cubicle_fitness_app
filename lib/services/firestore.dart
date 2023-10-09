@@ -1,19 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubicle_fitness/models/company.dart';
+import 'package:cubicle_fitness/models/user.dart';
 
 class FirestoreService {
   final CollectionReference users =
       FirebaseFirestore.instance.collection("users");
 
-  Future<void> addUser(String email, String name, String surname,
-      String dateOfBirth, String gender, String image) {
-    return users.add({
-      'name': name,
-      'surname': surname,
-      'dateOfBirth': dateOfBirth,
-      'gender': gender,
-      'email': email,
-      'image': image
+  final CollectionReference companies =
+      FirebaseFirestore.instance.collection("companies");
+
+  Stream<UserModel> getUserStreamByEmail(String email) {
+    var userRef = users.where('email', isEqualTo: email);
+
+    return userRef.snapshots().map(
+      (querySnapshot) {
+        var userData = querySnapshot
+            .docs.first; // Assuming there's only one user with a specific email
+        return UserModel.fromSnapshot(
+            userData as DocumentSnapshot<Map<String, dynamic>>);
+      },
+    );
+  }
+
+  Stream<CompanyModel> getCompanyStreamForUser(String email) {
+    return getUserStreamByEmail(email).asyncExpand((user) {
+      if (user.companyId != null) {
+        return companies.doc(user.companyId).snapshots().map(
+              (company) => CompanyModel.fromSnapshot(
+                  company as DocumentSnapshot<Map<String, dynamic>>),
+            );
+      } else {
+        // If companyId is null, return an empty stream
+        return Stream.empty();
+      }
     });
+  }
+
+  Future<UserModel?> getUserData(String? email) async {
+    final snapshot = await users.where("email", isEqualTo: email).get();
+    final userData = snapshot.docs
+        .map((e) =>
+            UserModel.fromSnapshot(e as DocumentSnapshot<Map<String, dynamic>>))
+        .single;
+    return userData;
+  }
+
+  Future<void> createNewCompany(String companyName, int maxWorkouts,
+      int weeklyGoal, UserModel user) async {
+    String companyId = companies.doc().id;
+
+    // Create a new company instance
+    CompanyModel newCompany = CompanyModel(
+      id: companyId,
+      name: companyName,
+      creatorId: user.id!,
+      members: [user.id!],
+      maxActivitiesPerWeek: maxWorkouts,
+      activitiesPerWeekGoal: weeklyGoal,
+      image: '', // Provide image URL if applicable
+    );
+    user.companyId = companyId;
+
+    // Create a new document for the company in Firestore
+    await companies.doc(companyId).set(newCompany.toJson());
+    await updateUser(user);
+  }
+
+  Future<void> addUser(UserModel newUser) {
+    return users.add(newUser.toJson());
+  }
+
+  Future<void> updateUser(UserModel user) async {
+    await users.doc(user.id).update(user.toJson());
   }
 
   Future<void> addUserThroughGoogle(

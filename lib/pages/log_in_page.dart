@@ -4,6 +4,7 @@ import "package:cubicle_fitness/pages/register_page.dart";
 import "package:cubicle_fitness/services/auth_service.dart";
 import "package:cubicle_fitness/widgets/email_TF.dart";
 import "package:cubicle_fitness/widgets/forgot_password_BT.dart";
+import "package:cubicle_fitness/widgets/form_TF.dart";
 import "package:cubicle_fitness/widgets/login_BT.dart";
 import "package:cubicle_fitness/widgets/password_TF.dart";
 import "package:cubicle_fitness/widgets/sign_in_with_tile.dart";
@@ -71,12 +72,10 @@ class _LogInPageState extends State<LogInPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.primary.withAlpha(230),
-                Theme.of(context).colorScheme.primary.withAlpha(200),
-                Theme.of(context).colorScheme.primary.withAlpha(170),
+                Theme.of(context).colorScheme.background,
+                Theme.of(context).colorScheme.primary
               ],
-              stops: [0.1, 0.4, 0.7, 0.9],
+              stops: [0.3, 1.2],
             )),
           ),
           SafeArea(
@@ -90,7 +89,7 @@ class _LogInPageState extends State<LogInPage> {
                       Text(
                         "Sign In",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.background,
+                            color: Theme.of(context).colorScheme.tertiary,
                             fontSize: 50,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.bold),
@@ -98,17 +97,17 @@ class _LogInPageState extends State<LogInPage> {
                       SizedBox(
                         height: 25,
                       ),
-                      EmailTF(
-                        controller: emailController,
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      PasswordTF(
-                        label: "Password",
-                        hintText: "Enter your password",
-                        controller: passwordController,
-                      ),
+                      FormTextField(
+                          hintText: "Enter your email",
+                          label: "Email",
+                          controller: emailController,
+                          icon: Icons.email),
+                      FormTextField(
+                          hintText: "Enter your password",
+                          label: "Password",
+                          obscureText: true,
+                          controller: passwordController,
+                          icon: Icons.lock),
                       ForgotPWBT(),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 20),
@@ -125,7 +124,7 @@ class _LogInPageState extends State<LogInPage> {
                                 fontFamily: 'Roboto',
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .background
+                                    .tertiary
                                     .withOpacity(0.8),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -136,7 +135,7 @@ class _LogInPageState extends State<LogInPage> {
                           Text("Sign in with",
                               style: TextStyle(
                                 fontFamily: 'Roboto',
-                                color: Theme.of(context).colorScheme.background,
+                                color: Theme.of(context).colorScheme.tertiary,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               )),
@@ -165,7 +164,7 @@ class _LogInPageState extends State<LogInPage> {
                                     fontFamily: 'Roboto',
                                     color: Theme.of(context)
                                         .colorScheme
-                                        .background
+                                        .tertiary
                                         .withOpacity(0.8),
                                     fontSize: 16,
                                   )),
@@ -182,7 +181,7 @@ class _LogInPageState extends State<LogInPage> {
                                         fontFamily: 'Roboto',
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .background,
+                                            .tertiary,
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       )))

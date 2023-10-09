@@ -1,3 +1,4 @@
+import 'package:cubicle_fitness/models/user.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,7 +26,15 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      _firestore.addUser(email, name, surname, dateOfBirth, gender, image);
+      //_firestore.addUser(email, name, surname, dateOfBirth, gender, image);
+      var newUser = UserModel(
+          name: name,
+          surname: surname,
+          email: email,
+          gender: gender,
+          dateOfBirth: dateOfBirth,
+          image: image);
+      _firestore.addUser(newUser);
       return userCredential;
     } catch (e) {}
   }

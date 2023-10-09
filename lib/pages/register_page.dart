@@ -106,12 +106,10 @@ class _RegisterPageState extends State<RegisterPage> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.primary.withAlpha(230),
-                Theme.of(context).colorScheme.primary.withAlpha(200),
-                Theme.of(context).colorScheme.primary.withAlpha(170),
+                Theme.of(context).colorScheme.background,
+                Theme.of(context).colorScheme.primary
               ],
-              stops: [0.1, 0.4, 0.7, 0.9],
+              stops: [0.3, 1.2],
             )),
           ),
           SafeArea(
@@ -125,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Text(
                         "Sign Up",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.background,
+                            color: Theme.of(context).colorScheme.tertiary,
                             fontSize: 50,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.bold),
@@ -134,21 +132,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 10,
                       ),
                       FormTextField(
-                        label: "Email",
                         hintText: "Enter your email",
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         icon: Icons.email,
                       ),
                       FormTextField(
-                        label: "Password",
                         hintText: "Enter your password",
                         controller: passwordController,
                         obscureText: true,
                         icon: Icons.lock,
                       ),
                       FormTextField(
-                          label: "Confirm Password",
                           hintText: "Enter your password again",
                           controller: confirmPasswordController,
                           obscureText: true,
@@ -158,14 +153,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         children: [
                           Flexible(
                             child: FormTextField(
-                                label: "Firstname",
                                 hintText: "Firstname",
                                 controller: nameController,
                                 icon: Icons.person),
                           ),
                           Flexible(
                             child: FormTextField(
-                                label: "Surname",
                                 hintText: "Surname",
                                 controller: surnameController,
                                 icon: Icons.person),
@@ -177,7 +170,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         children: [
                           Flexible(
                             child: FormTextField(
-                                label: "Age",
                                 hintText: "Date of birth",
                                 onTap: _showDatePicker,
                                 controller: dateOfBirthController,
@@ -212,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 fontFamily: 'Roboto',
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .background
+                                    .tertiary
                                     .withOpacity(0.8),
                                 fontSize: 16,
                               )),
@@ -227,9 +219,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: Text("Log in",
                                   style: TextStyle(
                                     fontFamily: 'Roboto',
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   )))

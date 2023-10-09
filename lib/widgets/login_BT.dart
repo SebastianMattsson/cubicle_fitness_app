@@ -11,14 +11,14 @@ class LogInBT extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
           elevation: 8,
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           padding: EdgeInsets.all(20),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
       child: Text(
         text,
         style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.tertiary,
             fontFamily: 'Roboto',
             letterSpacing: 2,
             fontSize: 20,
