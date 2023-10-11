@@ -39,20 +39,6 @@ class _LoggedInPageState extends State<LoggedInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              icon: Icon(
-                Icons.logout,
-                color: Theme.of(context).colorScheme.secondary,
-              ))
-        ],
-      ),
       bottomNavigationBar: Container(
         color: Theme.of(context).colorScheme.primary,
         child: Padding(

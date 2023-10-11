@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_declarations
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubicle_fitness/models/user.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/profile/edit_profile_page.dart';
 import 'package:cubicle_fitness/services/auth_service.dart';
@@ -17,6 +16,20 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: Icon(
+                Icons.logout,
+                color: Theme.of(context).colorScheme.secondary,
+              ))
+        ],
+      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: Container(

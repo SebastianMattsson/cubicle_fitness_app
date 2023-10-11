@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cubicle_fitness/models/user.dart';
-import 'package:cubicle_fitness/services/auth_service.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:cubicle_fitness/widgets/form_TF.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -22,6 +22,15 @@ class FirestoreService {
     );
   }
 
+  Stream<UserModel> getUserStreamById(String id) {
+    var userRef = users.doc(id);
+
+    return userRef.snapshots().map((documentSnapshot) {
+      return UserModel.fromSnapshot(
+          documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
+    });
+  }
+
   Stream<CompanyModel> getCompanyStreamForUser(String email) {
     return getUserStreamByEmail(email).asyncExpand((user) {
       if (user.companyId != null) {
@@ -34,6 +43,52 @@ class FirestoreService {
         return Stream.empty();
       }
     });
+  }
+
+  Stream<CompanyModel> getCompanyStream(String id) {
+    var companyRef = companies.doc(id);
+
+    return companyRef.snapshots().map((documentSnapshot) {
+      return CompanyModel.fromSnapshot(
+          documentSnapshot as DocumentSnapshot<Map<String, dynamic>>);
+    });
+  }
+
+  Stream<List<CompanyModel>> getCompaniesStream() {
+    return companies.snapshots().map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        return CompanyModel.fromSnapshot(
+            doc as DocumentSnapshot<Map<String, dynamic>>);
+      }).toList();
+    });
+  }
+
+  Future<void> joinCompany(UserModel user, CompanyModel company) async {
+    try {
+      if (user != null && company != null) {
+        // Update user data in Firestore
+        user.companyId = company.id;
+        company.members.add(user.id);
+        await updateUser(user);
+        await updateCompany(company);
+      }
+    } catch (e) {
+      print("Error joining company: $e");
+    }
+  }
+
+  Future<void> leaveCompany(UserModel user, CompanyModel company) async {
+    try {
+      if (user != null && company != null) {
+        // Update user data in Firestore
+        user.companyId = null;
+        company.members.remove(user.id);
+        await updateUser(user);
+        await updateCompany(company);
+      }
+    } catch (e) {
+      print("Error leaving company: $e");
+    }
   }
 
   Future<UserModel?> getUserData(String? email) async {
@@ -72,6 +127,10 @@ class FirestoreService {
 
   Future<void> updateUser(UserModel user) async {
     await users.doc(user.id).update(user.toJson());
+  }
+
+  Future<void> updateCompany(CompanyModel company) async {
+    await companies.doc(company.id).update(company.toJson());
   }
 
   Future<void> addUserThroughGoogle(

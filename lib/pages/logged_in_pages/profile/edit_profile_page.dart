@@ -1,9 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubicle_fitness/models/user.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/profile/profile_page.dart';
-import 'package:cubicle_fitness/services/auth_service.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:cubicle_fitness/widgets/form_TF.dart';
 import 'package:cubicle_fitness/widgets/gender_dropdown.dart';
@@ -20,7 +17,6 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final currentUser = FirebaseAuth.instance.currentUser!;
-  final _auth = AuthService();
   final db = FirestoreService();
 
   final nameController = TextEditingController();
@@ -110,7 +106,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
                                       child: Image(
-                                          image: NetworkImage(user!.image)),
+                                          image: NetworkImage(user.image)),
                                     ),
                                   ),
                                   Positioned(
@@ -193,6 +189,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         id: user.id,
                                         name: nameController.text.trim(),
                                         surname: surnameController.text.trim(),
+                                        companyId: user.companyId,
+                                        activities: user.activities,
                                         email: user.email,
                                         gender: genderSelected,
                                         dateOfBirth:

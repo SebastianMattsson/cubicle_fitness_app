@@ -2,14 +2,11 @@
 
 import "package:cubicle_fitness/pages/register_page.dart";
 import "package:cubicle_fitness/services/auth_service.dart";
-import "package:cubicle_fitness/widgets/email_TF.dart";
 import "package:cubicle_fitness/widgets/forgot_password_BT.dart";
 import "package:cubicle_fitness/widgets/form_TF.dart";
 import "package:cubicle_fitness/widgets/login_BT.dart";
-import "package:cubicle_fitness/widgets/password_TF.dart";
 import "package:cubicle_fitness/widgets/sign_in_with_tile.dart";
 import "package:firebase_auth/firebase_auth.dart";
-import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 
 class LogInPage extends StatefulWidget {
@@ -20,7 +17,6 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  bool? _rememberMe = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _auth = AuthService();
