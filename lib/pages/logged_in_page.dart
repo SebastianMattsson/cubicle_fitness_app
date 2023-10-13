@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cubicle_fitness/pages/logged_in_pages/activities_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activities_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/company_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/dashboard_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/my_activities.dart';

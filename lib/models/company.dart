@@ -6,6 +6,7 @@ class CompanyModel {
   final String name;
   final String creatorId;
   final List<dynamic> members;
+  final List<dynamic> activities;
   final int maxActivitiesPerWeek;
   final int activitiesPerWeekGoal;
   final String image;
@@ -15,6 +16,7 @@ class CompanyModel {
       required this.name,
       required this.creatorId,
       required this.members,
+      required this.activities,
       required this.image,
       required this.maxActivitiesPerWeek,
       required this.activitiesPerWeekGoal});
@@ -26,6 +28,7 @@ class CompanyModel {
       "maxActivitiesPerWeek": maxActivitiesPerWeek,
       "activitiesPerWeekGoal": activitiesPerWeekGoal,
       "members": members,
+      "activities": activities,
       "image": image,
     };
   }
@@ -39,6 +42,7 @@ class CompanyModel {
       creatorId: data['creatorId'] ?? '',
       image: data['image'] ?? '',
       members: data['members'],
+      activities: data['activities'],
       maxActivitiesPerWeek: data['maxActivitiesPerWeek'],
       activitiesPerWeekGoal: data['activitiesPerWeekGoal'],
     );

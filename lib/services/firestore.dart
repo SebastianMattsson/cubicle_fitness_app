@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubicle_fitness/models/category.dart';
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/models/user.dart';
 
@@ -8,6 +9,9 @@ class FirestoreService {
 
   final CollectionReference companies =
       FirebaseFirestore.instance.collection("companies");
+
+  final CollectionReference categories =
+      FirebaseFirestore.instance.collection("categories");
 
   Stream<UserModel> getUserStreamByEmail(String email) {
     var userRef = users.where('email', isEqualTo: email);
@@ -54,10 +58,27 @@ class FirestoreService {
     });
   }
 
+  Stream<List<UserModel>> getMembersInCompanyStream(String companyId) {
+    return users.where('companyId', isEqualTo: companyId).snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => UserModel.fromSnapshot(
+                doc as DocumentSnapshot<Map<String, dynamic>>))
+            .toList());
+  }
+
   Stream<List<CompanyModel>> getCompaniesStream() {
     return companies.snapshots().map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return CompanyModel.fromSnapshot(
+            doc as DocumentSnapshot<Map<String, dynamic>>);
+      }).toList();
+    });
+  }
+
+  Stream<List<CategoryModel>> getCategoryStream() {
+    return categories.snapshots().map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        return CategoryModel.fromSnapshot(
             doc as DocumentSnapshot<Map<String, dynamic>>);
       }).toList();
     });
@@ -91,6 +112,16 @@ class FirestoreService {
     }
   }
 
+  Future<void> deleteCompany(CompanyModel company, UserModel user) async {
+    // Set companyId to null for all members
+    for (var memberId in company.members) {
+      await users.doc(memberId).update({"companyId": null});
+    }
+
+    // Delete the company
+    await companies.doc(company.id).delete();
+  }
+
   Future<UserModel?> getUserData(String? email) async {
     final snapshot = await users.where("email", isEqualTo: email).get();
     final userData = snapshot.docs
@@ -110,6 +141,7 @@ class FirestoreService {
       name: companyName,
       creatorId: user.id!,
       members: [user.id!],
+      activities: List.empty(),
       maxActivitiesPerWeek: maxWorkouts,
       activitiesPerWeekGoal: weeklyGoal,
       image: '', // Provide image URL if applicable

@@ -15,7 +15,7 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.dark(
     primary: Color(0xFF1976D2), // Dark Blue
     secondary: Color(0xFFE64A19), // Deep Orange
-    background: Color(0xFF121212), // Dark Background
+    background: Color.fromARGB(255, 46, 43, 43), // Dark Background
     tertiary: Color(0xFFFFFFFF), // White
   ),
 );

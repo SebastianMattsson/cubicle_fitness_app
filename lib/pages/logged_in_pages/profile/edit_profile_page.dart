@@ -106,6 +106,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
                                       child: Image(
+                                          fit: BoxFit.cover,
                                           image: NetworkImage(user.image)),
                                     ),
                                   ),

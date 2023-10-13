@@ -74,7 +74,7 @@ class _SearchForCompanyPageState extends State<SearchForCompanyPage> {
                   prefixIconColor: Theme.of(context).colorScheme.tertiary,
                   hintText: "Enter company name",
                   fillColor:
-                      Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
+                      Theme.of(context).colorScheme.primary.withOpacity(0.2),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none)),
