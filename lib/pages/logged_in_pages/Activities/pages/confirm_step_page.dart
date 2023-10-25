@@ -75,7 +75,7 @@ class ConfirmStep extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          ConfirmText(text: location, icon: Icons.location_on),
+          ConfirmText(text: location, icon: Icons.place),
           SizedBox(
             height: 10,
           ),

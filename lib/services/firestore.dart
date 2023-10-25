@@ -189,6 +189,10 @@ class FirestoreService {
     await companies.doc(company.id).update(company.toJson());
   }
 
+  Future<void> updateActivity(ActivityModel activity) async {
+    await activities.doc(activity.id).update(activity.toJson());
+  }
+
   Future<void> addUserThroughGoogle(
       String? email, String? name, String? surname, String? image) {
     return users.add({

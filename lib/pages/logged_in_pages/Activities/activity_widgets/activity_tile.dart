@@ -9,9 +9,13 @@ class ActivityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int participantsCount = activityData.participants.length;
+    int maxParticipants = activityData.maxParticipants;
+    double progress = participantsCount / maxParticipants;
+
     return Container(
       width: double.infinity,
-      height: 100,
+      height: 120,
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
           borderRadius: BorderRadius.circular(20)),
@@ -29,27 +33,92 @@ class ActivityTile extends StatelessWidget {
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.tertiary,
                       fontFamily: 'Roboto',
-                      fontSize: 18,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  activityData.dateTime,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiary,
-                      fontFamily: 'Roboto',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
+                SizedBox(
+                  height: 10,
                 ),
-                Text(
-                  activityData.location,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiary,
-                      fontFamily: 'Roboto',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_month,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.8),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      activityData.dateTime,
+                      style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .tertiary
+                              .withOpacity(0.8),
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.place,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.8),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      activityData.location,
+                      style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .tertiary
+                              .withOpacity(0.8),
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 30),
+            child: Container(
+                width: 80,
+                height: 80,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      value: progress,
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          activityData.participants.length >=
+                                  activityData.minParticipants
+                              ? Colors.green
+                              : Theme.of(context).colorScheme.secondary),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text("${participantsCount} / ${maxParticipants}")
+                  ],
+                )),
           ),
         ],
       ),

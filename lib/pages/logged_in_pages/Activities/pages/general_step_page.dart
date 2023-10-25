@@ -147,7 +147,7 @@ class _GeneralStepState extends State<GeneralStep> {
         TextFieldForm(
             hintText: "Enter location",
             label: "Location",
-            icon: Icons.near_me,
+            icon: Icons.place,
             controller: widget.locationController,
             validator: (value) {
               if (value == null || value.isEmpty) {

@@ -3,7 +3,7 @@
 import 'package:cubicle_fitness/pages/logged_in_pages/Activities/pages/activities_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/company_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/dashboard_page.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/my_activities.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/Activity_calender/pages/activity_calender_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/profile/profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
