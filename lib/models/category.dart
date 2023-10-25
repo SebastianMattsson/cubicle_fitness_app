@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubicle_fitness/models/user.dart';
 
 class CategoryModel {
   final String? id;

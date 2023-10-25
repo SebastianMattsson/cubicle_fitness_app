@@ -1,5 +1,5 @@
-import 'package:cubicle_fitness/pages/logged_in_pages/company/create_new_company_page.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/search_company_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/create_new_company_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/search_company_page.dart';
 import 'package:flutter/material.dart';
 
 class NoCompanyPage extends StatelessWidget {

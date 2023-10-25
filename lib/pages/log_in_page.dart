@@ -31,7 +31,7 @@ class _LogInPageState extends State<LogInPage> {
 
     //Try signing in
     try {
-      dynamic result = await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
           emailController.text.trim(), passwordController.text.trim());
       //Remove the loading circle
       Navigator.pop(context);

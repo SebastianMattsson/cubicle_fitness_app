@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:cubicle_fitness/models/category.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activity_widgets/category_tile.dart';

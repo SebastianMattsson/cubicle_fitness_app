@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubicle_fitness/models/activity.dart';
 import 'package:cubicle_fitness/models/category.dart';
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/models/user.dart';
@@ -12,6 +13,9 @@ class FirestoreService {
 
   final CollectionReference categories =
       FirebaseFirestore.instance.collection("categories");
+
+  final CollectionReference activities =
+      FirebaseFirestore.instance.collection("activities");
 
   Stream<UserModel> getUserStreamByEmail(String email) {
     var userRef = users.where('email', isEqualTo: email);
@@ -44,7 +48,7 @@ class FirestoreService {
             );
       } else {
         // If companyId is null, return an empty stream
-        return Stream.empty();
+        return const Stream.empty();
       }
     });
   }
@@ -75,6 +79,14 @@ class FirestoreService {
     });
   }
 
+  Stream<List<ActivityModel>> getCompaniesActivitiesStream(String companyId) {
+    return activities.where('companyId', isEqualTo: companyId).snapshots().map(
+        (snapshot) => snapshot.docs
+            .map((doc) => ActivityModel.fromSnapshot(
+                doc as DocumentSnapshot<Map<String, dynamic>>))
+            .toList());
+  }
+
   Stream<List<CategoryModel>> getCategoryStream() {
     return categories.snapshots().map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
@@ -84,32 +96,40 @@ class FirestoreService {
     });
   }
 
+  Future<List<CategoryModel>> getCategories() async {
+    List<CategoryModel> returnCategories = [];
+
+    try {
+      QuerySnapshot categorySnapshot = await categories.get();
+
+      for (var doc in categorySnapshot.docs) {
+        returnCategories.add(CategoryModel.fromSnapshot(
+            doc as DocumentSnapshot<Map<String, dynamic>>));
+      }
+      return returnCategories;
+    } catch (e) {
+      return []; // Return an empty list in case of error
+    }
+  }
+
   Future<void> joinCompany(UserModel user, CompanyModel company) async {
     try {
-      if (user != null && company != null) {
-        // Update user data in Firestore
-        user.companyId = company.id;
-        company.members.add(user.id);
-        await updateUser(user);
-        await updateCompany(company);
-      }
-    } catch (e) {
-      print("Error joining company: $e");
-    }
+      // Update user data in Firestore
+      user.companyId = company.id;
+      company.members.add(user.id);
+      await updateUser(user);
+      await updateCompany(company);
+    } catch (e) {}
   }
 
   Future<void> leaveCompany(UserModel user, CompanyModel company) async {
     try {
-      if (user != null && company != null) {
-        // Update user data in Firestore
-        user.companyId = null;
-        company.members.remove(user.id);
-        await updateUser(user);
-        await updateCompany(company);
-      }
-    } catch (e) {
-      print("Error leaving company: $e");
-    }
+      // Update user data in Firestore
+      user.companyId = null;
+      company.members.remove(user.id);
+      await updateUser(user);
+      await updateCompany(company);
+    } catch (e) {}
   }
 
   Future<void> deleteCompany(CompanyModel company, UserModel user) async {
@@ -151,6 +171,10 @@ class FirestoreService {
     // Create a new document for the company in Firestore
     await companies.doc(companyId).set(newCompany.toJson());
     await updateUser(user);
+  }
+
+  Future<void> createNewActivity(ActivityModel activity) async {
+    await activities.add(activity.toJson());
   }
 
   Future<void> addUser(UserModel newUser) {

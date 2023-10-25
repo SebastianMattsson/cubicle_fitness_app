@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activity_widgets/activities_list.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activity_widgets/activity_tile.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activity_widgets/categories_list.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/Activities/create_new_activity_page.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/Activities/create_new_category_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/Activities/pages/create_new_activity_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/Activities/pages/create_new_category_page.dart';
 import 'package:flutter/material.dart';
 
 class ActivitiesPage extends StatefulWidget {

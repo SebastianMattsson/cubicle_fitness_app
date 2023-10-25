@@ -6,6 +6,7 @@ import 'package:cubicle_fitness/widgets/form_TF.dart';
 import 'package:cubicle_fitness/widgets/gender_dropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -90,66 +91,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         return SingleChildScrollView(
                           child: Column(
                             children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          width: 3),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Image(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(user.image)),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary),
-                                      child: Icon(Icons.camera_alt,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    child: Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary),
-                                      child: Icon(Icons.file_present,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary),
-                                    ),
-                                  )
-                                ],
-                              ),
+                              // Stack(
+                              //   children: [
+                              //     Container(
+                              //       height: 150,
+                              //       width: 150,
+                              //       decoration: BoxDecoration(
+                              //         shape: BoxShape.circle,
+                              //         border: Border.all(
+                              //             color: Theme.of(context)
+                              //                 .colorScheme
+                              //                 .primary,
+                              //             width: 3),
+                              //       ),
+                              //       child: ClipRRect(
+                              //         borderRadius: BorderRadius.circular(100),
+                              //         child: Image(
+                              //             fit: BoxFit.cover,
+                              //             image: NetworkImage(user.image)),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
                               SizedBox(
-                                height: 10,
+                                height: 15,
                               ),
                               FormTextField(
                                 label: "Firstname",
@@ -180,7 +145,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 genderSelected: genderSelected,
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 30,
                               ),
                               SizedBox(
                                 width: 300,

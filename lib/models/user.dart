@@ -8,7 +8,7 @@ class UserModel {
   final String email;
   final String gender;
   final String dateOfBirth;
-  final String image;
+  String image;
   String? companyId;
   final List<String>? activities;
 

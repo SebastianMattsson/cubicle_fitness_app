@@ -9,7 +9,6 @@ import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:cubicle_fitness/widgets/glass_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quickalert/quickalert.dart';
 
 class CompanyPage extends StatelessWidget {
   CompanyPage({super.key});

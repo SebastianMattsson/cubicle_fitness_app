@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activities_page.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/company_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/Activities/pages/activities_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/company_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/dashboard_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/my_activities.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/profile/profile_page.dart';
-import 'package:cubicle_fitness/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -19,12 +18,10 @@ class LoggedInPage extends StatefulWidget {
 
 class _LoggedInPageState extends State<LoggedInPage> {
   final user = FirebaseAuth.instance.currentUser;
-  final _auth = AuthService();
   int _page = 0;
   final pages = [
     MyActivitiesPage(),
     ActivitiesPage(),
-    DashboardPage(),
     CompanyPage(),
     ProfilePage()
   ];
@@ -58,10 +55,6 @@ class _LoggedInPageState extends State<LoggedInPage> {
               GButton(
                 icon: Icons.sports_tennis,
                 text: "Activities",
-              ),
-              GButton(
-                icon: Icons.dashboard,
-                text: "Dashboard",
               ),
               GButton(
                 icon: Icons.supervised_user_circle,
