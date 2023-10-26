@@ -3,6 +3,8 @@ import 'package:cubicle_fitness/models/category.dart';
 
 class ActivityModel {
   final String? id;
+  final bool isParentActivity;
+  final String? parentId;
   final String companyId;
   final String name;
   final String categoryId;
@@ -17,6 +19,8 @@ class ActivityModel {
 
   ActivityModel({
     this.id,
+    required this.isParentActivity,
+    this.parentId,
     required this.companyId,
     required this.name,
     required this.categoryId,
@@ -33,6 +37,8 @@ class ActivityModel {
   toJson() {
     return {
       "companyId": companyId,
+      "isParentActivity": isParentActivity,
+      "parentId": parentId,
       "name": name,
       "categoryId": categoryId,
       "description": description,
@@ -51,6 +57,7 @@ class ActivityModel {
     final data = document.data()!;
     return ActivityModel(
       id: document.id,
+      isParentActivity: data['isParentActivity'] ?? false,
       companyId: data['companyId'] ?? '',
       name: data['name'] ?? '',
       categoryId: data['categoryId'] ?? '',

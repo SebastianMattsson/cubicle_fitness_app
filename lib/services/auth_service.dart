@@ -43,6 +43,10 @@ class AuthService {
   Future signInWithGoogle() async {
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+      if (gUser == null) {
+        return null;
+      }
       final GoogleSignInAuthentication gAuth = await gUser!.authentication;
       final credential = GoogleAuthProvider.credential(
           accessToken: gAuth.accessToken, idToken: gAuth.idToken);
@@ -63,7 +67,9 @@ class AuthService {
             surname, userCredential.user!.photoURL);
       }
       return userCredential;
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future signOut() async {

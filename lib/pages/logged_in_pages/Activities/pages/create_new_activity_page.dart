@@ -10,6 +10,7 @@ import 'package:cubicle_fitness/pages/logged_in_pages/Activities/pages/participa
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CreateActivityPage extends StatefulWidget {
   CreateActivityPage({super.key});
@@ -29,6 +30,7 @@ class _CreateActivityPageState extends State<CreateActivityPage> {
   final costController = TextEditingController();
   final dateTimeController = TextEditingController();
   final locationController = TextEditingController();
+  final repeatDurationController = TextEditingController();
   String repeatFrequencySelected = "Never";
 
   //Controllers for the participations step
@@ -36,6 +38,64 @@ class _CreateActivityPageState extends State<CreateActivityPage> {
   final maxController = TextEditingController();
 
   CategoryModel? selectedCategory;
+
+  void createActivities(UserModel userData) async {
+    // Parse the selected date
+    DateTime selectedDateTime =
+        DateFormat('yyyy-MM-dd HH:mm').parse(dateTimeController.text.trim());
+
+    if (repeatFrequencySelected == 'Never') {
+      var activity = ActivityModel(
+        companyId: userData.companyId!,
+        isParentActivity: true,
+        name: nameController.text.trim(),
+        categoryId: selectedCategory!.id!,
+        description: descriptionController.text.trim(),
+        cost: int.parse(costController.text),
+        dateTime: dateTimeController.text.trim(),
+        repeated: repeatFrequencySelected,
+        location: locationController.text.trim(),
+        participants: [userData.id!],
+        minParticipants: int.parse(minController.text.trim()),
+        maxParticipants: int.parse(maxController.text.trim()),
+      );
+      await db.createNewActivity(activity);
+    } else {
+      // Calculate the date a week from the selected date
+      var repeatDuration = int.parse(repeatDurationController.text.trim());
+      var isParentActivity = true;
+      var parentId;
+      // Create activities for the next 7 days
+      for (int i = 0; i < repeatDuration; i++) {
+        i == 0 ? isParentActivity = true : isParentActivity = false;
+
+        var activity = ActivityModel(
+            companyId: userData.companyId!,
+            isParentActivity: isParentActivity,
+            parentId: parentId,
+            name: nameController.text.trim(),
+            categoryId: selectedCategory!.id!,
+            description: descriptionController.text.trim(),
+            cost: int.parse(costController.text),
+            dateTime: DateFormat('yyyy-MM-dd HH:mm').format(selectedDateTime),
+            repeated: repeatFrequencySelected,
+            location: locationController.text.trim(),
+            participants: [],
+            minParticipants: int.parse(minController.text.trim()),
+            maxParticipants: int.parse(maxController.text.trim()));
+
+        // Add the activity to the database
+        var activityId = await db.createNewActivity(activity);
+
+        if (i == 0) {
+          parentId = activityId;
+        }
+
+        // Increment the date for the next iteration
+        selectedDateTime = selectedDateTime.add(Duration(days: 7));
+      }
+    }
+  }
 
   void onCategorySelected(CategoryModel? pickedCategory) {
     setState(() {
@@ -70,6 +130,7 @@ class _CreateActivityPageState extends State<CreateActivityPage> {
                 dateTimeController: dateTimeController,
                 locationController: locationController,
                 repeatFrequencySelected: repeatFrequencySelected,
+                repeatDurationController: repeatDurationController,
                 onFrequencyChanged: (value) {
                   setState(() {
                     repeatFrequencySelected = value;
@@ -98,6 +159,7 @@ class _CreateActivityPageState extends State<CreateActivityPage> {
                 dateTime: dateTimeController.text.trim(),
                 location: locationController.text.trim(),
                 repeatFrequencySelected: repeatFrequencySelected,
+                repeatDuration: repeatDurationController.text.trim(),
                 min: minController.text.trim(),
                 max: maxController.text.trim()),
             state: _currentStep <= 3 ? StepState.indexed : StepState.complete,
@@ -166,22 +228,7 @@ class _CreateActivityPageState extends State<CreateActivityPage> {
                       if (_currentStep == 3) {
                         if (userData.companyId != null &&
                             selectedCategory?.id != null) {
-                          var activity = ActivityModel(
-                              companyId: userData.companyId!,
-                              name: nameController.text.trim(),
-                              categoryId: selectedCategory!.id!,
-                              description: descriptionController.text.trim(),
-                              cost: int.parse(costController.text),
-                              dateTime: dateTimeController.text.trim(),
-                              repeated: repeatFrequencySelected,
-                              location: locationController.text.trim(),
-                              participants: [userData.id!],
-                              minParticipants:
-                                  int.parse(minController.text.trim()),
-                              maxParticipants:
-                                  int.parse(maxController.text.trim()));
-
-                          await db.createNewActivity(activity);
+                          createActivities(userData);
 
                           Navigator.pop(context);
                         }

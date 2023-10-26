@@ -145,7 +145,13 @@ class _LogInPageState extends State<LogInPage> {
                                   onTap: () {},
                                   imagePath: "lib/images/facebook.png"),
                               SignInWithTile(
-                                  onTap: () => _auth.signInWithGoogle(),
+                                  onTap: () async {
+                                    var userCredential =
+                                        await _auth.signInWithGoogle();
+                                    if (userCredential != null) {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
                                   imagePath: "lib/images/google.png"),
                             ],
                           ),

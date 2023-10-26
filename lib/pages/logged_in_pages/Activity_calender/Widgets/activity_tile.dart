@@ -116,7 +116,17 @@ class ActivityTile extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    Text("${participantsCount} / ${maxParticipants}")
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("${participantsCount} / ${maxParticipants}"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.person_2_sharp)
+                      ],
+                    )
                   ],
                 )),
           ),

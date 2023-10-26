@@ -12,6 +12,7 @@ class GeneralStep extends StatefulWidget {
   final TextEditingController costController;
   final TextEditingController dateTimeController;
   final TextEditingController locationController;
+  final TextEditingController repeatDurationController;
   final String repeatFrequencySelected;
   final Function(dynamic) onFrequencyChanged;
   const GeneralStep(
@@ -22,7 +23,8 @@ class GeneralStep extends StatefulWidget {
       required this.dateTimeController,
       required this.locationController,
       required this.repeatFrequencySelected,
-      required this.onFrequencyChanged});
+      required this.onFrequencyChanged,
+      required this.repeatDurationController});
 
   @override
   State<GeneralStep> createState() => _GeneralStepState();
@@ -141,6 +143,27 @@ class _GeneralStepState extends State<GeneralStep> {
           onFrequencyChanged: widget.onFrequencyChanged,
           icon: Icons.repeat,
         ),
+        SizedBox(
+          height: 15,
+        ),
+        widget.repeatFrequencySelected != "Never"
+            ? TextFieldForm(
+                hintText: "Enter Duration (Weeks)",
+                label: "Duration",
+                keyBoardType: TextInputType.number,
+                icon: Icons.event_repeat,
+                controller: widget.repeatDurationController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "The Duration cant be empty";
+                  } else if (int.parse(value) > 20) {
+                    return "You cant repeat an event for that long";
+                  } else if (int.parse(value) < 2) {
+                    return "You cant choose a duration less then 2 weeks";
+                  }
+                  return null;
+                })
+            : SizedBox(),
         SizedBox(
           height: 15,
         ),

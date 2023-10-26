@@ -4,7 +4,7 @@ import 'package:cubicle_fitness/models/activity.dart';
 import 'package:cubicle_fitness/models/category.dart';
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/models/user.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activity_widgets/activity_tile.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/Activity_calender/Widgets/activity_tile.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/Activity_calender/Widgets/category_horizontal_tile.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/Activity_calender/Widgets/date_tile.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/Activity_calender/pages/activity_details_page.dart';
@@ -22,23 +22,33 @@ class MyActivitiesPage extends StatefulWidget {
 
 class _MyActivitiesPageState extends State<MyActivitiesPage> {
   final DateTime today = DateTime.now();
-  late DateTime _selectedDate;
+  DateTime? _selectedDate;
   CategoryModel? _selectedCategory;
   final currentUser = FirebaseAuth.instance.currentUser!;
   final db = FirestoreService();
 
   List<DateTime> generateDates() {
     List<DateTime> dates = [];
-    for (int i = 0; i < 31; i++) {
+    for (int i = 0; i < 15; i++) {
       dates.add(today.add(Duration(days: i)));
     }
     return dates;
   }
 
   void _handleDateSelection(DateTime selectedDate) {
-    setState(() {
-      _selectedDate = selectedDate;
-    });
+    if (_selectedDate == null) {
+      setState(() {
+        _selectedDate = selectedDate;
+      });
+    } else if (selectedDate == _selectedDate) {
+      setState(() {
+        _selectedDate = null;
+      });
+    } else {
+      setState(() {
+        _selectedDate = selectedDate;
+      });
+    }
   }
 
   void _handleCategorySelection(CategoryModel selectedCategory) {
@@ -57,11 +67,39 @@ class _MyActivitiesPageState extends State<MyActivitiesPage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _selectedDate = today; // Initialize with today's date
+  List<ActivityModel> _filterActivities(List<ActivityModel> activitiesData) {
+    var filteredActivities = activitiesData.where((activity) {
+      // Parse activity.dateTime string into a DateTime object
+      DateTime activityDateTime = DateTime.parse(activity.dateTime);
+
+      // Check if the activity is in the past
+      bool isActivityInPast = activityDateTime.isBefore(today);
+
+      // Format activity's DateTime object to match selected date format
+      bool isSameDate = true;
+      if (_selectedDate != null) {
+        String activityDateString =
+            DateFormat('yyyy-MM-dd').format(activityDateTime);
+
+        String selectedDateString =
+            DateFormat('yyyy-MM-dd').format(_selectedDate!);
+
+        isSameDate = activityDateString == selectedDateString;
+      }
+
+      bool hasSelectedCategory = _selectedCategory == null ||
+          activity.categoryId == _selectedCategory!.id;
+      return !isActivityInPast && isSameDate && hasSelectedCategory;
+    }).toList();
+
+    return filteredActivities;
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _selectedDate = today;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +149,11 @@ class _MyActivitiesPageState extends State<MyActivitiesPage> {
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              bool isSelected =
-                                  dates[index].isAtSameMomentAs(_selectedDate);
+                              bool isSelected = false;
+                              if (_selectedDate != null) {
+                                isSelected = dates[index]
+                                    .isAtSameMomentAs(_selectedDate!);
+                              }
                               return DateTile(
                                 date: dates[index],
                                 isSelected: isSelected,
@@ -198,33 +239,60 @@ class _MyActivitiesPageState extends State<MyActivitiesPage> {
                                   return Text('Error: ${snapshot.error}');
                                 } else {
                                   var activitiesData = snapshot.data!;
+
+                                  // Filter activities based on selected date and category
+                                  var filteredActivities =
+                                      _filterActivities(activitiesData);
+
                                   return Expanded(
-                                      child: ListView.separated(
-                                    itemCount: activitiesData.length,
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ActivityDetailsPage(
-                                                        activityData:
-                                                            activitiesData[
-                                                                index],
-                                                        user: userData,
-                                                      )));
-                                        },
-                                        child: ActivityTile(
-                                            activityData:
-                                                activitiesData[index]),
-                                      );
-                                    },
-                                    separatorBuilder: (context, int index) =>
-                                        SizedBox(
-                                      height: 20,
-                                    ),
-                                  ));
+                                      child: filteredActivities.length == 0
+                                          ? Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 30),
+                                                child: Text(
+                                                  "No Activities available, head to the activities tab to create a new activity",
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .tertiary,
+                                                    fontSize: 18,
+                                                    fontFamily: 'Roboto',
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : ListView.separated(
+                                              itemCount:
+                                                  filteredActivities.length,
+                                              itemBuilder: (context, index) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ActivityDetailsPage(
+                                                                  activityData:
+                                                                      filteredActivities[
+                                                                          index],
+                                                                  user:
+                                                                      userData,
+                                                                )));
+                                                  },
+                                                  child: ActivityTile(
+                                                      activityData:
+                                                          filteredActivities[
+                                                              index]),
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (context, int index) =>
+                                                      SizedBox(
+                                                height: 20,
+                                              ),
+                                            ));
                                 }
                               }))
                           : Expanded(
@@ -238,7 +306,7 @@ class _MyActivitiesPageState extends State<MyActivitiesPage> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .tertiary,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontFamily: 'Roboto',
                                     ),
                                   ),

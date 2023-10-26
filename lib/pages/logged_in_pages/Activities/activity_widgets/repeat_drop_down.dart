@@ -23,10 +23,6 @@ class RepeatDropDown extends StatelessWidget {
       value: "Weekly",
       child: Text("Weekly"),
     ),
-    DropdownMenuItem(
-      value: "Monthly",
-      child: Text("Monthly"),
-    )
   ];
 
   @override

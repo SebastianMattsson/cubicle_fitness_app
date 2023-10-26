@@ -10,6 +10,7 @@ class ConfirmStep extends StatelessWidget {
   final String cost;
   final String dateTime;
   final String repeatFrequencySelected;
+  final String repeatDuration;
   final String location;
   final String min;
   final String max;
@@ -24,7 +25,8 @@ class ConfirmStep extends StatelessWidget {
       required this.min,
       required this.max,
       required this.category,
-      required this.repeatFrequencySelected});
+      required this.repeatFrequencySelected,
+      required this.repeatDuration});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,9 @@ class ConfirmStep extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          ConfirmText(text: repeatFrequencySelected, icon: Icons.repeat),
+          ConfirmText(
+              text: "$repeatFrequencySelected ($repeatDuration weeks)",
+              icon: Icons.repeat),
           SizedBox(
             height: 10,
           ),

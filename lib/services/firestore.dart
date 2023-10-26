@@ -96,6 +96,18 @@ class FirestoreService {
     });
   }
 
+  Stream<List<ActivityModel>> getActivitiesWhereIsParentActivityStream(
+      String companyId) {
+    return activities
+        .where('companyId', isEqualTo: companyId)
+        .where('isParentActivity', isEqualTo: true)
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((doc) => ActivityModel.fromSnapshot(
+                doc as DocumentSnapshot<Map<String, dynamic>>))
+            .toList());
+  }
+
   Future<List<CategoryModel>> getCategories() async {
     List<CategoryModel> returnCategories = [];
 
@@ -142,6 +154,18 @@ class FirestoreService {
     await companies.doc(company.id).delete();
   }
 
+  Future<void> deleteActivity(ActivityModel activity) async {
+    //Find activities with matching parentId
+    var activitiesToDelete =
+        await activities.where('parentId', isEqualTo: activity.id).get();
+
+    // Delete each activity
+    for (var doc in activitiesToDelete.docs) {
+      await doc.reference.delete();
+    }
+    await activities.doc(activity.id).delete();
+  }
+
   Future<UserModel?> getUserData(String? email) async {
     final snapshot = await users.where("email", isEqualTo: email).get();
     final userData = snapshot.docs
@@ -173,8 +197,11 @@ class FirestoreService {
     await updateUser(user);
   }
 
-  Future<void> createNewActivity(ActivityModel activity) async {
-    await activities.add(activity.toJson());
+  Future<String> createNewActivity(ActivityModel activity) async {
+    DocumentReference docRef = await activities.add(activity.toJson());
+
+    // Return the ID of the created activity
+    return docRef.id;
   }
 
   Future<void> addUser(UserModel newUser) {
