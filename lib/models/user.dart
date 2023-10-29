@@ -11,6 +11,7 @@ class UserModel {
   String image;
   String? companyId;
   final List<String>? activities;
+  List<dynamic> notifications;
 
   UserModel(
       {this.id,
@@ -21,7 +22,8 @@ class UserModel {
       required this.dateOfBirth,
       required this.image,
       this.companyId,
-      this.activities});
+      this.activities,
+      required this.notifications});
 
   toJson() {
     return {
@@ -32,7 +34,8 @@ class UserModel {
       "dateOfBirth": dateOfBirth,
       "image": image,
       "companyId": companyId,
-      "activities": activities
+      "activities": activities,
+      "notifications": notifications
     };
   }
 
@@ -47,6 +50,7 @@ class UserModel {
         gender: data['gender'] ?? 'Other',
         dateOfBirth: data['dateOfBirth'] ?? 'Undefined',
         image: data['image'] ?? '',
-        companyId: data['companyId']);
+        companyId: data['companyId'],
+        notifications: data['notifications'] ?? []);
   }
 }

@@ -71,20 +71,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              icon: Icon(
-                Icons.logout,
-                color: Theme.of(context).colorScheme.secondary,
-              ))
-        ],
-      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: Container(

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubicle_fitness/models/activity.dart';
 import 'package:cubicle_fitness/models/category.dart';
 import 'package:cubicle_fitness/models/company.dart';
+import 'package:cubicle_fitness/models/join_request.dart';
+import 'package:cubicle_fitness/models/notification.dart';
 import 'package:cubicle_fitness/models/user.dart';
 
 class FirestoreService {
@@ -16,6 +18,12 @@ class FirestoreService {
 
   final CollectionReference activities =
       FirebaseFirestore.instance.collection("activities");
+
+  final CollectionReference notifications =
+      FirebaseFirestore.instance.collection("notifications");
+
+  final CollectionReference joinRequests =
+      FirebaseFirestore.instance.collection("joinRequests");
 
   Stream<UserModel> getUserStreamByEmail(String email) {
     var userRef = users.where('email', isEqualTo: email);
@@ -83,6 +91,16 @@ class FirestoreService {
     return activities.where('companyId', isEqualTo: companyId).snapshots().map(
         (snapshot) => snapshot.docs
             .map((doc) => ActivityModel.fromSnapshot(
+                doc as DocumentSnapshot<Map<String, dynamic>>))
+            .toList());
+  }
+
+  Stream<List<JoinRequestModel>> getCompaniyJoinRequests(String companyId) {
+    return joinRequests
+        .where('companyId', isEqualTo: companyId)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => JoinRequestModel.fromSnapshot(
                 doc as DocumentSnapshot<Map<String, dynamic>>))
             .toList());
   }
@@ -208,6 +226,105 @@ class FirestoreService {
     return users.add(newUser.toJson());
   }
 
+  Future sendJoinRequest(CompanyModel company, UserModel user) async {
+    String notificationId = notifications.doc().id;
+    print(notificationId);
+    NotificationModel notification = NotificationModel(
+        id: notificationId,
+        notificationType: "Join Request",
+        title: "${user.name} requests to join your company",
+        description:
+            "${user.name} ${user.surname} wants to join ${company.name}. Please take a minute to review their request and head over to the company page to either accept or decline their request.",
+        isRead: false,
+        receiverId: company.creatorId,
+        senderId: user.id,
+        timestamp: Timestamp.now());
+
+    JoinRequestModel joinRequest =
+        JoinRequestModel(companyId: company.id!, userId: user.id!);
+
+    var receiver = await getUserById(notification.receiverId);
+    print(notification.id);
+    receiver.notifications.add(notification.id);
+
+    await updateUser(receiver);
+    await notifications.doc(notificationId).set(notification.toJson());
+    await joinRequests.add(joinRequest.toJson());
+  }
+
+  Future acceptJoinRequest(CompanyModel company, UserModel receiver,
+      UserModel sender, JoinRequestModel joinRequest) async {
+    String notificationId = notifications.doc().id;
+    NotificationModel notification = NotificationModel(
+        id: notificationId,
+        notificationType: "Accepted Request",
+        title: "${sender.name} accepted your join request",
+        description:
+            "${sender.name} ${sender.surname} accepted your request to join ${company.name}. Head over to the company page to explore your company.",
+        isRead: false,
+        receiverId: receiver.id!,
+        senderId: sender.id,
+        timestamp: Timestamp.now());
+
+    receiver.notifications.add(notification.id);
+
+    await joinCompany(receiver, company);
+    await notifications.doc(notificationId).set(notification.toJson());
+    await joinRequests.doc(joinRequest.id).delete();
+  }
+
+  Future declineJoinRequest(CompanyModel company, UserModel receiver,
+      UserModel sender, JoinRequestModel joinRequest) async {
+    String notificationId = notifications.doc().id;
+    NotificationModel notification = NotificationModel(
+        id: notificationId,
+        notificationType: "Declined Request",
+        title: "${sender.name} declined your join request",
+        description:
+            "${sender.name} ${sender.surname} declined your request to join ${company.name}. Head over to the company page to either create your own company or join another company.",
+        isRead: false,
+        receiverId: receiver.id!,
+        senderId: sender.id,
+        timestamp: Timestamp.now());
+
+    receiver.notifications.add(notification.id);
+
+    await notifications.doc(notificationId).set(notification.toJson());
+    await joinRequests.doc(joinRequest.id).delete();
+  }
+
+  Stream<List<NotificationModel>>? getNotificationsByIds(String userId) {
+    return notifications
+        .where('receiverId', isEqualTo: userId)
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        var data = doc.data()!;
+        print(data);
+        return NotificationModel.fromSnapshot(
+            doc as DocumentSnapshot<Map<String, dynamic>>);
+      }).toList();
+    });
+  }
+
+  Stream<int> getUnreadNotificationsCount(String userId) {
+    return notifications
+        .where('receiverId', isEqualTo: userId)
+        .where('isRead',
+            isEqualTo: false) // Add this filter for unread notifications
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot
+          .docs.length; // Count the number of unread notifications
+    });
+  }
+
+  Future<UserModel> getUserById(String userId) async {
+    var document = await users.doc(userId).get();
+    return UserModel.fromSnapshot(
+        document as DocumentSnapshot<Map<String, dynamic>>);
+  }
+
   Future<void> updateUser(UserModel user) async {
     await users.doc(user.id).update(user.toJson());
   }
@@ -218,6 +335,10 @@ class FirestoreService {
 
   Future<void> updateActivity(ActivityModel activity) async {
     await activities.doc(activity.id).update(activity.toJson());
+  }
+
+  Future<void> updateNotification(NotificationModel notification) async {
+    await notifications.doc(notification.id).update(notification.toJson());
   }
 
   Future<void> addUserThroughGoogle(

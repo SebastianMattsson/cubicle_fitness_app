@@ -56,10 +56,10 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
+                              horizontal: 15, vertical: 15),
                           decoration: BoxDecoration(
                               color: activitiesSelected
-                                  ? Theme.of(context).colorScheme.secondary
+                                  ? Theme.of(context).colorScheme.primary
                                   : Theme.of(context).colorScheme.background,
                               borderRadius: BorderRadius.circular(20)),
                           child: Column(
@@ -90,10 +90,10 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
+                              horizontal: 15, vertical: 15),
                           decoration: BoxDecoration(
                               color: !activitiesSelected
-                                  ? Theme.of(context).colorScheme.secondary
+                                  ? Theme.of(context).colorScheme.primary
                                   : Theme.of(context).colorScheme.background,
                               borderRadius: BorderRadius.circular(20)),
                           child: Column(

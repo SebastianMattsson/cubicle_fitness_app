@@ -36,7 +36,7 @@ class CompanyHighlight extends StatelessWidget {
                       Text(
                         "Creator",
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: Theme.of(context).colorScheme.tertiary,
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),

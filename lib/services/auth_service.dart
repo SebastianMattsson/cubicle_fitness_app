@@ -33,7 +33,8 @@ class AuthService {
           email: email,
           gender: gender,
           dateOfBirth: dateOfBirth,
-          image: image);
+          image: image,
+          notifications: []);
       _firestore.addUser(newUser);
       return userCredential;
     } catch (e) {}

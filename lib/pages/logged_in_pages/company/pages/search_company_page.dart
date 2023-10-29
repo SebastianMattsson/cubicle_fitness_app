@@ -17,11 +17,11 @@ class _SearchForCompanyPageState extends State<SearchForCompanyPage> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   final _searchController = TextEditingController();
 
-  void joinCompany(CompanyModel company) async {
+  void sendJoinRequest(CompanyModel company) async {
     var user = await db.getUserData(currentUser.email);
 
     if (user != null) {
-      await db.joinCompany(user, company);
+      await db.sendJoinRequest(company, user);
     }
 
     Navigator.pop(context);
@@ -128,8 +128,8 @@ class _SearchForCompanyPageState extends State<SearchForCompanyPage> {
                                             .secondary,
                                         shape: StadiumBorder(),
                                         elevation: 6),
-                                    onPressed: () =>
-                                        joinCompany(filteredCompanies[index]),
+                                    onPressed: () => sendJoinRequest(
+                                        filteredCompanies[index]),
                                     child: Text(
                                       "Join",
                                       style: TextStyle(

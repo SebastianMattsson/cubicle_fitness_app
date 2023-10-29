@@ -1,14 +1,19 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cubicle_fitness/models/activity.dart';
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/models/user.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_content.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_highlights.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_info.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/no_company_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/members_list.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/no_company_page.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/requests_page.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:cubicle_fitness/widgets/glass_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart' as badges;
 
 class CompanyPage extends StatelessWidget {
   CompanyPage({super.key});
@@ -37,14 +42,14 @@ class CompanyPage extends StatelessWidget {
                 } else {
                   return StreamBuilder<CompanyModel?>(
                       stream: db.getCompanyStream(userData.companyId!),
-                      builder: (context, companySnapshot) {
-                        if (companySnapshot.connectionState ==
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return CircularProgressIndicator();
-                        } else if (companySnapshot.hasError) {
+                        } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
-                        } else if (companySnapshot.hasData) {
-                          var companyData = companySnapshot.data!;
+                        } else if (snapshot.hasData) {
+                          var companyData = snapshot.data!;
                           var isCreator = companyData.creatorId == userData.id
                               ? true
                               : false;
@@ -66,7 +71,7 @@ class CompanyPage extends StatelessWidget {
                                     child: GlassBox(),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 70),
+                                    padding: const EdgeInsets.only(top: 60),
                                     child: Center(
                                       child: Column(
                                         children: [
@@ -108,7 +113,70 @@ class CompanyPage extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                  )
+                                  ),
+                                  Positioned(
+                                      top: 15,
+                                      right: 15,
+                                      child: Row(
+                                        children: [
+                                          isCreator
+                                              ? StreamBuilder(
+                                                  stream: db
+                                                      .getCompaniyJoinRequests(
+                                                          companyData.id!),
+                                                  builder:
+                                                      ((context, snapshot) {
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return CircularProgressIndicator(); // Loading indicator while fetching user data
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      return Text(
+                                                          'Error: ${snapshot.error}');
+                                                    } else {
+                                                      var joinRequests =
+                                                          snapshot.data!;
+
+                                                      return GestureDetector(
+                                                        onTap: () =>
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            RequestsPage(
+                                                                              company: companyData,
+                                                                              creator: userData,
+                                                                            ))),
+                                                        child: badges.Badge(
+                                                          badgeStyle: badges.BadgeStyle(
+                                                              badgeColor: Theme
+                                                                      .of(context)
+                                                                  .colorScheme
+                                                                  .secondary),
+                                                          showBadge:
+                                                              joinRequests
+                                                                  .isNotEmpty,
+                                                          badgeContent: Text(
+                                                              joinRequests
+                                                                  .length
+                                                                  .toString()),
+                                                          child: Icon(
+                                                              Icons.person_add),
+                                                        ),
+                                                      );
+                                                    }
+                                                  }),
+                                                )
+                                              : SizedBox(),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Icon(Icons.settings)
+                                        ],
+                                      ))
                                 ],
                               ),
                               Expanded(
@@ -126,7 +194,7 @@ class CompanyPage extends StatelessWidget {
                                         right: 0,
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 20.0),
+                                              horizontal: 20),
                                           child: Container(
                                             height: 100,
                                             decoration: BoxDecoration(
@@ -137,10 +205,7 @@ class CompanyPage extends StatelessWidget {
                                                     BorderRadius.circular(10),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .tertiary
-                                                        .withOpacity(0.2),
+                                                    color: Colors.black26,
                                                     offset: Offset(0, 2),
                                                     blurRadius: 6.0,
                                                   )

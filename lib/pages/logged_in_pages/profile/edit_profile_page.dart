@@ -161,7 +161,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                         gender: genderSelected,
                                         dateOfBirth:
                                             dateOfBirthController.text.trim(),
-                                        image: user.image);
+                                        image: user.image,
+                                        notifications: user.notifications);
 
                                     await db.updateUser(updatedUser);
 

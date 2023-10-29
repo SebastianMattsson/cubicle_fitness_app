@@ -17,7 +17,7 @@ class CompanyHighlightTile extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.tertiary,
                 fontSize: 16,
                 fontWeight: FontWeight.bold),
           ),
