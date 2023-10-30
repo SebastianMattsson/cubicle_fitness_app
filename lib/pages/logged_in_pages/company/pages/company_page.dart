@@ -14,6 +14,7 @@ import 'package:cubicle_fitness/widgets/glass_box.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:quickalert/quickalert.dart';
 
 class CompanyPage extends StatelessWidget {
   CompanyPage({super.key});
@@ -24,6 +25,34 @@ class CompanyPage extends StatelessWidget {
     final userStream =
         FirestoreService().getUserStreamByEmail(currentUser.email!);
     final db = FirestoreService();
+
+    void onSelected(BuildContext context, int item, bool isCreator,
+        CompanyModel companyData, UserModel userData) {
+      switch (item) {
+        case 1:
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.confirm,
+            text: isCreator
+                ? "Are you sure you want to delete ${companyData.name}"
+                : "Are you sure you want to leave ${companyData.name}",
+            onConfirmBtnTap: () async {
+              Navigator.pop(context);
+              isCreator
+                  ? await db.deleteCompany(companyData, userData)
+                  : await db.leaveCompany(userData, companyData);
+            },
+            customAsset: "lib/images/company.jpg",
+            confirmBtnText: "Yes",
+            cancelBtnText: "No",
+            confirmBtnColor: Colors.green,
+            cancelBtnTextStyle: TextStyle(color: Colors.red),
+            textColor: Theme.of(context).colorScheme.tertiary,
+            titleColor: Theme.of(context).colorScheme.tertiary,
+            backgroundColor: Theme.of(context).colorScheme.background,
+          );
+      }
+    }
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -174,7 +203,51 @@ class CompanyPage extends StatelessWidget {
                                           SizedBox(
                                             width: 20,
                                           ),
-                                          Icon(Icons.settings)
+                                          Theme(
+                                            data: Theme.of(context).copyWith(
+                                                iconTheme: IconThemeData(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .tertiary)),
+                                            child: PopupMenuButton<int>(
+                                                onSelected: (item) =>
+                                                    onSelected(
+                                                        context,
+                                                        item,
+                                                        isCreator,
+                                                        companyData,
+                                                        userData),
+                                                itemBuilder: (context) => [
+                                                      PopupMenuItem(
+                                                          value: 0,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text("Settings"),
+                                                              Icon(Icons
+                                                                  .settings)
+                                                            ],
+                                                          )),
+                                                      PopupMenuItem(
+                                                          value: 1,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(isCreator
+                                                                  ? "Delete Company"
+                                                                  : "Leave Company"),
+                                                              Icon(isCreator
+                                                                  ? Icons.delete
+                                                                  : Icons
+                                                                      .arrow_forward_ios_outlined)
+                                                            ],
+                                                          )),
+                                                    ]),
+                                          )
                                         ],
                                       ))
                                 ],

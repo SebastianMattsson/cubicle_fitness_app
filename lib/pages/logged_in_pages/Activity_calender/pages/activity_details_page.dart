@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cubicle_fitness/models/category.dart';
 import 'package:cubicle_fitness/models/user.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cubicle_fitness/models/activity.dart';
 import 'package:quickalert/quickalert.dart';
@@ -51,7 +51,6 @@ class _ActivityDetailsPageState extends State<ActivityDetailsPage> {
   @override
   void initState() {
     super.initState();
-    // Initialize _isRegistered and _isFull based on your conditions
     checkActivity();
   }
 
@@ -81,16 +80,30 @@ class _ActivityDetailsPageState extends State<ActivityDetailsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: double.infinity,
-                    height: 400,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(40),
-                      child: Image(
-                          fit: BoxFit.cover,
-                          image: AssetImage("lib/images/running.jpg")),
-                    ),
-                  ),
+                  FutureBuilder<CategoryModel?>(
+                      future:
+                          db.getCategoryById(widget.activityData.categoryId),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else {
+                          var category = snapshot.data!;
+                          return Container(
+                            width: double.infinity,
+                            height: 400,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(40),
+                              child: Image(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(category.image)),
+                            ),
+                          );
+                        }
+                      }),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 15, horizontal: 10),
@@ -165,19 +178,40 @@ class _ActivityDetailsPageState extends State<ActivityDetailsPage> {
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     child: Row(
                       children: [
-                        for (int i = 0; i < 4; i++)
+                        for (int i = 0;
+                            widget.activityData.participants.length > 4
+                                ? i < 4
+                                : i < widget.activityData.participants.length;
+                            i++)
                           Align(
                             widthFactor: 0.5,
-                            child: CircleAvatar(
-                              radius: 22,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.background,
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage:
-                                    AssetImage("lib/images/company.jpg"),
-                              ),
-                            ),
+                            child: StreamBuilder<UserModel>(
+                                stream: db.getUserStreamById(
+                                    widget.activityData.participants[i]),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return Center(
+                                        child:
+                                            Text('Error: ${snapshot.error}'));
+                                  } else {
+                                    var participant = snapshot.data!;
+                                    return CircleAvatar(
+                                      radius: 22,
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .background,
+                                      child: CircleAvatar(
+                                        radius: 20,
+                                        backgroundImage:
+                                            NetworkImage(participant.image),
+                                      ),
+                                    );
+                                  }
+                                }),
                           ),
                         SizedBox(
                           width: 20,

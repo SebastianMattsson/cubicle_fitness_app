@@ -228,7 +228,6 @@ class FirestoreService {
 
   Future sendJoinRequest(CompanyModel company, UserModel user) async {
     String notificationId = notifications.doc().id;
-    print(notificationId);
     NotificationModel notification = NotificationModel(
         id: notificationId,
         notificationType: "Join Request",
@@ -244,12 +243,32 @@ class FirestoreService {
         JoinRequestModel(companyId: company.id!, userId: user.id!);
 
     var receiver = await getUserById(notification.receiverId);
-    print(notification.id);
     receiver.notifications.add(notification.id);
 
     await updateUser(receiver);
     await notifications.doc(notificationId).set(notification.toJson());
     await joinRequests.add(joinRequest.toJson());
+  }
+
+  Future<CategoryModel?> getCategoryById(String categoryId) async {
+    try {
+      // Fetch the category document using categoryId
+      DocumentSnapshot categorySnapshot =
+          await categories.doc(categoryId).get();
+
+      // Check if the category document exists
+      if (categorySnapshot.exists) {
+        // Convert the document data to a CategoryModel object
+        return CategoryModel.fromSnapshot(
+            categorySnapshot as DocumentSnapshot<Map<String, dynamic>>);
+      } else {
+        // Category document does not exist
+        return null;
+      }
+    } catch (e) {
+      print("Error fetching category: $e");
+      return null;
+    }
   }
 
   Future acceptJoinRequest(CompanyModel company, UserModel receiver,
@@ -300,7 +319,6 @@ class FirestoreService {
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         var data = doc.data()!;
-        print(data);
         return NotificationModel.fromSnapshot(
             doc as DocumentSnapshot<Map<String, dynamic>>);
       }).toList();

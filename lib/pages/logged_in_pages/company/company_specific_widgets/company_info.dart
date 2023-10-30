@@ -32,31 +32,6 @@ class CompanyInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MembersList(label: "Members", companyData: companyData),
-              CompanyButton(
-                  onPress: () {
-                    QuickAlert.show(
-                      context: context,
-                      type: QuickAlertType.confirm,
-                      text: isCreator
-                          ? "Are you sure you want to delete ${companyData.name}"
-                          : "Are you sure you want to leave ${companyData.name}",
-                      onConfirmBtnTap: () async {
-                        Navigator.pop(context);
-                        isCreator
-                            ? await db.deleteCompany(companyData, userData)
-                            : await db.leaveCompany(userData, companyData);
-                      },
-                      customAsset: "lib/images/company.jpg",
-                      confirmBtnText: "Yes",
-                      cancelBtnText: "No",
-                      confirmBtnColor: Colors.green,
-                      cancelBtnTextStyle: TextStyle(color: Colors.red),
-                      textColor: Theme.of(context).colorScheme.tertiary,
-                      titleColor: Theme.of(context).colorScheme.tertiary,
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                    );
-                  },
-                  text: isCreator ? "Delete Company" : "Leave Company"),
             ],
           ),
         ),

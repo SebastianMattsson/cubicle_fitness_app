@@ -1,5 +1,6 @@
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/models/user.dart';
+import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/members_list_page.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -12,82 +13,92 @@ class MembersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(label,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiary,
-                      fontFamily: 'Roboto',
-                      fontSize: 22,
-                    )),
-                SizedBox(
-                  height: 10,
-                ),
-                StreamBuilder(
-                    stream: db.getMembersInCompanyStream(companyData.id!),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        var membersData = snapshot.data as List<UserModel>;
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MembersListPage(
+                    company: companyData,
+                  ))),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        fontFamily: 'Roboto',
+                        fontSize: 22,
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  StreamBuilder(
+                      stream: db.getMembersInCompanyStream(companyData.id!),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          var membersData = snapshot.data as List<UserModel>;
 
-                        return Row(children: [
-                          for (int i = 0;
-                              membersData.length > 4
-                                  ? i < 5
-                                  : i < membersData.length;
-                              i++)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 2.0),
-                              child: Align(
-                                widthFactor: 0.5,
-                                child: CircleAvatar(
-                                  radius: 22,
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.background,
+                          return Row(children: [
+                            for (int i = 0;
+                                membersData.length > 4
+                                    ? i < 5
+                                    : i < membersData.length;
+                                i++)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 2.0),
+                                child: Align(
+                                  widthFactor: 0.5,
                                   child: CircleAvatar(
-                                    radius: 20,
-                                    backgroundImage:
-                                        NetworkImage(membersData[i].image),
+                                    radius: 22,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    child: CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage:
+                                          NetworkImage(membersData[i].image),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                        ]);
+                              )
+                          ]);
 
-                        // return Container(
-                        //   height: 100,
-                        //   child: ListView.separated(
-                        //     scrollDirection: Axis.horizontal,
-                        //     itemCount: membersData.length,
-                        //     itemBuilder: (context, index) =>
-                        //         buildMemberCard(context, membersData[index]),
-                        //     separatorBuilder: (BuildContext context, int index) =>
-                        //         SizedBox(
-                        //       width: 20,
-                        //     ),
-                        //   ),
-                        // );
-                      }
-                    })
-              ],
-            ),
-            Icon(Icons.arrow_forward_ios),
-          ],
+                          // return Container(
+                          //   height: 100,
+                          //   child: ListView.separated(
+                          //     scrollDirection: Axis.horizontal,
+                          //     itemCount: membersData.length,
+                          //     itemBuilder: (context, index) =>
+                          //         buildMemberCard(context, membersData[index]),
+                          //     separatorBuilder: (BuildContext context, int index) =>
+                          //         SizedBox(
+                          //       width: 20,
+                          //     ),
+                          //   ),
+                          // );
+                        }
+                      })
+                ],
+              ),
+              Icon(Icons.arrow_forward_ios),
+            ],
+          ),
         ),
       ),
     );
