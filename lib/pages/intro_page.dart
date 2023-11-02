@@ -58,7 +58,7 @@ class IntroPage extends StatelessWidget {
                   width: double.infinity,
                   child: Center(
                     child: Text(
-                      "Elevate your health, Elevate your work!",
+                      "Where Work Meets Wellness!",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontSize: 20,

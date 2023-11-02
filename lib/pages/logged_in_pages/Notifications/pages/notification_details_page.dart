@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cubicle_fitness/models/notification.dart';
-import 'package:cubicle_fitness/pages/logged_in_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/Notifications/widgets/notification_details_text.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/company_page.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:flutter/material.dart';
 

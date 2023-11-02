@@ -6,7 +6,6 @@ import 'package:cubicle_fitness/widgets/form_TF.dart';
 import 'package:cubicle_fitness/widgets/gender_dropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class EditProfilePage extends StatefulWidget {

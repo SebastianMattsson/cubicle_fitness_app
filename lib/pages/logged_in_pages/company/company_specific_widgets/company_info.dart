@@ -1,11 +1,8 @@
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/models/user.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_button.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_content.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/members_list.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:quickalert/quickalert.dart';
 
 class CompanyInfo extends StatelessWidget {
   final bool isCreator;

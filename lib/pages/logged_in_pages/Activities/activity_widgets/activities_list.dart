@@ -3,7 +3,6 @@
 import 'package:cubicle_fitness/models/activity.dart';
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/Activities/activity_widgets/parent_activity_tile.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/Activity_calender/Widgets/activity_tile.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

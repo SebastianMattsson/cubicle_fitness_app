@@ -1,12 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cubicle_fitness/models/activity.dart';
 import 'package:cubicle_fitness/models/company.dart';
 import 'package:cubicle_fitness/models/user.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_content.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_highlights.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/company_info.dart';
-import 'package:cubicle_fitness/pages/logged_in_pages/company/company_specific_widgets/members_list.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/no_company_page.dart';
 import 'package:cubicle_fitness/pages/logged_in_pages/company/pages/requests_page.dart';
 import 'package:cubicle_fitness/services/firestore.dart';

@@ -318,7 +318,6 @@ class FirestoreService {
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
-        var data = doc.data()!;
         return NotificationModel.fromSnapshot(
             doc as DocumentSnapshot<Map<String, dynamic>>);
       }).toList();

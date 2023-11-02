@@ -3,7 +3,6 @@
 import 'package:cubicle_fitness/models/category.dart';
 import 'package:cubicle_fitness/services/firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CategoryStep extends StatefulWidget {
   final CategoryModel? selectedCategory;
